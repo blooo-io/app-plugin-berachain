@@ -1,5 +1,5 @@
 # ****************************************************************************
-#    Ledger Ethereum Plugin Boilerplate
+#    Ledger Ethereum Plugin Berachain
 #    (c) 2023 Ledger SAS.
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,7 +16,7 @@
 # ****************************************************************************
 
 # EDIT THIS: Application name
-APPNAME = "PluginBoilerplate"
+APPNAME = "Berachain"
 
 # Application version
 APPVERSION_M = 1

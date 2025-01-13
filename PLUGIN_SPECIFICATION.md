@@ -5,7 +5,7 @@ This documentation is a template and shall be updated.
 
 ## About
 
-This documentation describes the smart contracts and functions supported by the boilerplate plugin.
+This documentation describes the smart contracts and functions supported by the Berachain plugin.
 
 ## Smart Contracts
 
