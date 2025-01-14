@@ -26,8 +26,7 @@
 //     - an enum named selector_t with every NAME
 //     - a map named SELECTORS associating each NAME with it's value
 #define SELECTORS_LIST(X)                    \
-    X(SWAP_EXACT_ETH_FOR_TOKENS, 0x7ff36ab5) \
-    X(BOILERPLATE_DUMMY_2, 0x13374242)
+    X(DELEGATE, 0x5c19a95c)
 
 // Xmacro helpers to define the enum and map
 // Do not modify !

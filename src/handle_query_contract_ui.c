@@ -76,19 +76,13 @@ void handle_query_contract_ui(ethQueryContractUI_t *msg) {
     memset(msg->msg, 0, msg->msgLength);
 
     // EDIT THIS: Adapt the cases for the screens you'd like to display.
-    switch (msg->screenIndex) {
-        case 0:
-            ret = set_send_ui(msg);
+    switch (context->selectorIndex) {
+        case DELEGATE:
+            ret = set_delegate_ui(msg, context);
             break;
-        case 1:
-            ret = set_receive_ui(msg, context);
-            break;
-        case 2:
-            ret = set_beneficiary_ui(msg, context);
-            break;
-        // Keep this
         default:
             PRINTF("Received an invalid screenIndex\n");
+            break;
     }
     msg->result = ret ? ETH_PLUGIN_RESULT_OK : ETH_PLUGIN_RESULT_ERROR;
 }

@@ -11,8 +11,8 @@ static void handle_swap_exact_eth_for_tokens(ethPluginProvideParameter_t *msg, c
     switch (context->next_param) {
         case MIN_AMOUNT_RECEIVED:  // amountOutMin
             copy_parameter(context->amount_received,
-                           msg->parameter,
-                           sizeof(context->amount_received));
+            msg->parameter,
+            sizeof(context->amount_received));
             context->next_param = PATH_OFFSET;
             break;
         case PATH_OFFSET:  // path
@@ -41,6 +41,22 @@ static void handle_swap_exact_eth_for_tokens(ethPluginProvideParameter_t *msg, c
     }
 }
 
+static void handle_delegate(ethPluginProvideParameter_t *msg, context_t *context) {
+   switch (context->next_param) {
+        case BENEFICIARY:  // amountOutMin
+            copy_address(context->beneficiary, msg->parameter, sizeof(context->beneficiary));
+            context->next_param = UNEXPECTED_PARAMETER;
+            break;
+        case UNEXPECTED_PARAMETER:
+            break;
+         // Keep this
+        default:
+            PRINTF("Param not supported: %d\n", context->next_param);
+            msg->result = ETH_PLUGIN_RESULT_ERROR;
+            break;
+    }
+}
+
 void handle_provide_parameter(ethPluginProvideParameter_t *msg) {
     context_t *context = (context_t *) msg->pluginContext;
     // We use `%.*H`: it's a utility function to print bytes. You first give
@@ -55,10 +71,8 @@ void handle_provide_parameter(ethPluginProvideParameter_t *msg) {
 
     // EDIT THIS: adapt the cases and the names of the functions.
     switch (context->selectorIndex) {
-        case SWAP_EXACT_ETH_FOR_TOKENS:
-            handle_swap_exact_eth_for_tokens(msg, context);
-            break;
-        case BOILERPLATE_DUMMY_2:
+        case DELEGATE:
+            handle_delegate(msg, context);
             break;
         default:
             PRINTF("Selector Index not supported: %d\n", context->selectorIndex);
