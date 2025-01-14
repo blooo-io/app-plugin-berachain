@@ -5,7 +5,7 @@
 
 // Set UI for the "Send" screen.
 // EDIT THIS: Adapt / remove this function to your needs.
-static bool set_send_ui(ethQueryContractUI_t *msg) {
+/* static bool set_send_ui(ethQueryContractUI_t *msg) {
     strlcpy(msg->title, "Send", msg->titleLength);
 
     const uint8_t *eth_amount = msg->pluginSharedRO->txContent->value.value;
@@ -19,11 +19,11 @@ static bool set_send_ui(ethQueryContractUI_t *msg) {
                           "ETH",
                           msg->msg,
                           msg->msgLength);
-}
+} */
 
 // Set UI for "Receive" screen.
 // EDIT THIS: Adapt / remove this function to your needs.
-static bool set_receive_ui(ethQueryContractUI_t *msg, const context_t *context) {
+/* static bool set_receive_ui(ethQueryContractUI_t *msg, const context_t *context) {
     strlcpy(msg->title, "Receive Min.", msg->titleLength);
 
     uint8_t decimals = context->decimals;
@@ -41,7 +41,7 @@ static bool set_receive_ui(ethQueryContractUI_t *msg, const context_t *context) 
                           ticker,
                           msg->msg,
                           msg->msgLength);
-}
+} */
 
 // Set UI for "Beneficiary" screen.
 // EDIT THIS: Adapt / remove this function to your needs.
@@ -78,7 +78,14 @@ void handle_query_contract_ui(ethQueryContractUI_t *msg) {
     // EDIT THIS: Adapt the cases for the screens you'd like to display.
     switch (context->selectorIndex) {
         case DELEGATE:
-            ret = set_delegate_ui(msg, context);
+            switch (msg->screenIndex) {
+                case 0:
+                    ret = set_beneficiary_ui(msg, context);
+                    break;
+                default:
+                    PRINTF("Received an invalid screenIndex\n");
+                    break;
+            }
             break;
         default:
             PRINTF("Received an invalid screenIndex\n");
