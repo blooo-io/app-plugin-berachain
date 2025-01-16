@@ -32,12 +32,7 @@ def test_delegate(backend, firmware, navigator, test_name, wallet_addr):
     client = EthAppClient(backend)
 
     data = contract.encodeABI("delegate", [
-        Web3.to_wei(28.5, "ether"),
-        [
-            bytes.fromhex("C02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"),
-            bytes.fromhex("6B3595068778DD592e39A122f4f5a5cF09C90fE2")
-        ],
-        bytes.fromhex("d8dA6BF26964aF9D7eEd9e03E53415D37aA96045"),
+        bytes.fromhex("0be5debae3edfedd42f420247847d2a6f0fa598f")
     ])
 
     # first setup the external plugin
@@ -52,7 +47,7 @@ def test_delegate(backend, firmware, navigator, test_name, wallet_addr):
         "maxPriorityFeePerGas": Web3.to_wei(1.5, "gwei"),
         "gas": 173290,
         "to": contract.address,
-        "value": Web3.to_wei(0.1, "ether"),
+        "value": 0,
         "chainId": ChainId.ETH,
         "data": data
     }

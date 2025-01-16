@@ -1,7 +1,6 @@
 #include "plugin.h"
 
-// EDIT THIS: Remove this function and write your own handlers!
-static void handle_swap_exact_eth_for_tokens(ethPluginProvideParameter_t *msg, context_t *context) {
+/* static void handle_swap_exact_eth_for_tokens(ethPluginProvideParameter_t *msg, context_t *context) {
     if (context->go_to_offset) {
         if (msg->parameterOffset != context->offset + SELECTOR_SIZE) {
             return;
@@ -39,17 +38,14 @@ static void handle_swap_exact_eth_for_tokens(ethPluginProvideParameter_t *msg, c
             msg->result = ETH_PLUGIN_RESULT_ERROR;
             break;
     }
-}
+} */
 
 static void handle_delegate(ethPluginProvideParameter_t *msg, context_t *context) {
    switch (context->next_param) {
-        case BENEFICIARY:  // amountOutMin
+        case BENEFICIARY:
             copy_address(context->beneficiary, msg->parameter, sizeof(context->beneficiary));
             context->next_param = UNEXPECTED_PARAMETER;
             break;
-        case UNEXPECTED_PARAMETER:
-            break;
-         // Keep this
         default:
             PRINTF("Param not supported: %d\n", context->next_param);
             msg->result = ETH_PLUGIN_RESULT_ERROR;

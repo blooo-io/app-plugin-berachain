@@ -5,13 +5,9 @@ void handle_finalize(ethPluginFinalize_t *msg) {
 
     msg->uiType = ETH_UI_TYPE_GENERIC;
 
-    // EDIT THIS: Set the total number of screen you will need.
-    msg->numScreens = 2;
-    // EDIT THIS: Handle this case like you wish to (i.e. maybe no additional screen needed?).
     switch (context->selectorIndex) {
-        case DELEGATE:
-            // An addiitonal screen is required to display the `beneficiary` field.
-            msg->numScreens += 1;
+        case DELEGATE: 
+            msg->numScreens = 1;
             break;
         default:
             PRINTF("Selector index: %d not supported\n", context->selectorIndex);
