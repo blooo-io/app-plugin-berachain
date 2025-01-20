@@ -59,9 +59,9 @@ static bool set_beneficiary_ui(ethQueryContractUI_t *msg, context_t *context) {
     // Get the string representation of the address stored in `context->beneficiary`. Put it in
     // `msg->msg`.
     return getEthAddressStringFromBinary(
-           context->beneficiary,
-           msg->msg + 2,  // +2 here because we've already prefixed with '0x'.
-           chainid);
+        context->beneficiary,
+        msg->msg + 2,  // +2 here because we've already prefixed with '0x'.
+        chainid);
 }
 
 void handle_query_contract_ui(ethQueryContractUI_t *msg) {

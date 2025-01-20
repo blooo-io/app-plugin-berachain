@@ -6,7 +6,7 @@ void handle_finalize(ethPluginFinalize_t *msg) {
     msg->uiType = ETH_UI_TYPE_GENERIC;
 
     switch (context->selectorIndex) {
-        case DELEGATE: 
+        case DELEGATE:
             msg->numScreens = 1;
             break;
         default:
