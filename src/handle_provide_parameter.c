@@ -4,7 +4,9 @@ static void handle_delegate(ethPluginProvideParameter_t *msg, context_t *context
     switch (context->next_param) {
         case BENEFICIARY:
             copy_address(context->beneficiary, msg->parameter, sizeof(context->beneficiary));
-            context->next_param = UNEXPECTED_PARAMETER;
+            context->next_param = NONE;
+            break;
+        case NONE:
             break;
         default:
             PRINTF("Param not supported: %d\n", context->next_param);

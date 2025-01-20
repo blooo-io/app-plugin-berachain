@@ -52,6 +52,7 @@ typedef enum {
     PATH_OFFSET,
     PATH_LENGTH,
     UNEXPECTED_PARAMETER,
+    NONE,
 } parameter;
 
 // Shared global memory with Ethereum app. Must be at most 5 * 32 bytes.
