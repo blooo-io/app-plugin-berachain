@@ -15,6 +15,21 @@ static void handle_delegate(ethPluginProvideParameter_t *msg, context_t *context
     }
 }
 
+static void handle_create_reward_vault(ethPluginProvideParameter_t *msg, context_t *context) {
+    switch (context->next_param) {
+        case BENEFICIARY:
+            copy_address(context->beneficiary, msg->parameter, sizeof(context->beneficiary));
+            context->next_param = NONE;
+            break;
+        case NONE:
+            break;
+        default:
+            PRINTF("Param not supported: %d\n", context->next_param);
+            msg->result = ETH_PLUGIN_RESULT_ERROR;
+            break;
+    }
+}
+
 void handle_provide_parameter(ethPluginProvideParameter_t *msg) {
     context_t *context = (context_t *) msg->pluginContext;
     // We use `%.*H`: it's a utility function to print bytes. You first give
@@ -29,6 +44,9 @@ void handle_provide_parameter(ethPluginProvideParameter_t *msg) {
 
     // EDIT THIS: adapt the cases and the names of the functions.
     switch (context->selectorIndex) {
+        case CREATE_REWARD_VAULT:
+            handle_create_reward_vault(msg, context);
+            break;
         case DELEGATE:
             handle_delegate(msg, context);
             break;
