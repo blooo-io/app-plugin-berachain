@@ -31,8 +31,8 @@ with open("%s/0xe2257f3c674a7cbbffcf7c01925d5bcb85ea0367.abi.json" % (ABIS_FOLDE
 def test_create_reward_vault(backend, firmware, navigator, test_name, wallet_addr):
     client = EthAppClient(backend)
 
-    data = contract.encodeABI("createRewardVault", [
-        bytes.fromhex("0xe0b93a409fee110Cd9122F34f89471B5Cb01466b")
+    data = contract.encode_abi("createRewardVault", [
+        bytes.fromhex("e0b93a409fee110Cd9122F34f89471B5Cb01466b")
     ])
 
     # first setup the external plugin

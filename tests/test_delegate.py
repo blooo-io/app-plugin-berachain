@@ -31,7 +31,7 @@ with open("%s/0x289274787baf083c15a45a174b7a8e44f0720660.abi.json" % (ABIS_FOLDE
 def test_delegate(backend, firmware, navigator, test_name, wallet_addr):
     client = EthAppClient(backend)
 
-    data = contract.encodeABI("delegate", [
+    data = contract.encode_abi("delegate", [
         bytes.fromhex("0be5debae3edfedd42f420247847d2a6f0fa598f")
     ])
 

@@ -44,7 +44,6 @@
 } */
 
 // Set UI for "Beneficiary" screen.
-// EDIT THIS: Adapt / remove this function to your needs.
 static bool set_beneficiary_ui(ethQueryContractUI_t *msg, context_t *context) {
     switch (context->selectorIndex) {
         case CREATE_REWARD_VAULT:
@@ -52,6 +51,9 @@ static bool set_beneficiary_ui(ethQueryContractUI_t *msg, context_t *context) {
             break;
         case DELEGATE:
             strlcpy(msg->title, "Beneficiary", msg->titleLength);
+            break;
+        default:
+            PRINTF("Received an invalid selectorIndex\n");
             break;
     }
 
@@ -96,7 +98,7 @@ void handle_query_contract_ui(ethQueryContractUI_t *msg) {
             }
             break;
         default:
-            PRINTF("Received an invalid screenIndex\n");
+            PRINTF("Received an invalid selectorIndex\n");
             break;
     }
     msg->result = ret ? ETH_PLUGIN_RESULT_OK : ETH_PLUGIN_RESULT_ERROR;

@@ -26,8 +26,8 @@
 //     - an enum named selector_t with every NAME
 //     - a map named SELECTORS associating each NAME with it's value
 #define SELECTORS_LIST(X) \
-    X(DELEGATE, 0x5c19a95c) \
-    X(CREATE_REWARD_VAULT, 0x577ee5c7)
+    X(CREATE_REWARD_VAULT, 0x577ee5c7) \
+    X(DELEGATE, 0x5c19a95c)
 
 // Xmacro helpers to define the enum and map
 // Do not modify !
