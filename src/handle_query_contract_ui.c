@@ -23,7 +23,7 @@
 
 // Set UI for "Receive" screen.
 // EDIT THIS: Adapt / remove this function to your needs.
-/* static bool set_receive_ui(ethQueryContractUI_t *msg, const context_t *context) {
+ static bool set_receive_ui(ethQueryContractUI_t *msg, const context_t *context) {
     strlcpy(msg->title, "Receive Min.", msg->titleLength);
 
     uint8_t decimals = context->decimals;
@@ -41,7 +41,7 @@
                           ticker,
                           msg->msg,
                           msg->msgLength);
-} */
+}
 
 // Set UI for "Beneficiary" screen.
 static bool set_beneficiary_ui(ethQueryContractUI_t *msg, context_t *context) {
@@ -51,6 +51,9 @@ static bool set_beneficiary_ui(ethQueryContractUI_t *msg, context_t *context) {
             break;
         case DELEGATE:
             strlcpy(msg->title, "Beneficiary", msg->titleLength);
+            break;
+        case MINT:
+            strlcpy(msg->title, "To", msg->titleLength);
             break;
         default:
             PRINTF("Received an invalid selectorIndex\n");
@@ -73,6 +76,30 @@ static bool set_beneficiary_ui(ethQueryContractUI_t *msg, context_t *context) {
         chainid);
 }
 
+static bool set_address_ui(ethQueryContractUI_t *msg, context_t *context) {
+    switch (context->selectorIndex) {
+        case MINT:
+            strlcpy(msg->title, "Core", msg->titleLength);
+            break;
+        default:
+            PRINTF("Received an invalid selectorIndex\n");
+            break;
+    }
+
+    // Prefix the address with `0x`.
+    msg->msg[0] = '0';
+    msg->msg[1] = 'x';
+
+    // We need a random chainID for legacy reasons with `getEthAddressStringFromBinary`.
+    // Setting it to `0` will make it work with every chainID :)
+    uint64_t chainid = 0;
+
+    return getEthAddressStringFromBinary(
+        context->address,
+        msg->msg + 2,  // +2 here because we've already prefixed with '0x'.
+        chainid);
+}
+
 void handle_query_contract_ui(ethQueryContractUI_t *msg) {
     context_t *context = (context_t *) msg->pluginContext;
     bool ret = false;
@@ -90,6 +117,22 @@ void handle_query_contract_ui(ethQueryContractUI_t *msg) {
         case DELEGATE:
             switch (msg->screenIndex) {
                 case 0:
+                    ret = set_beneficiary_ui(msg, context);
+                    break;
+                default:
+                    PRINTF("Received an invalid screenIndex\n");
+                    break;
+            }
+            break;
+        case MINT:
+            switch (msg->screenIndex) {
+                case 0:
+                    ret = set_address_ui(msg, context);
+                    break;
+                case 1:
+                    ret = set_min_amount_received_ui(msg, context);
+                    break;
+                case 2:
                     ret = set_beneficiary_ui(msg, context);
                     break;
                 default:

@@ -19,6 +19,10 @@ void handle_query_contract_id(ethQueryContractID_t *msg) {
             strlcpy(msg->version, "Delegate", msg->versionLength);
             msg->result = ETH_PLUGIN_RESULT_OK;
             break;
+        case MINT:
+            strlcpy(msg->version, "Mint", msg->versionLength);
+            msg->result = ETH_PLUGIN_RESULT_OK;
+            break;
         default:
             PRINTF("Selector index: %d not supported\n", context->selectorIndex);
             msg->result = ETH_PLUGIN_RESULT_ERROR;

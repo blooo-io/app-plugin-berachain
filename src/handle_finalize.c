@@ -10,6 +10,9 @@ void handle_finalize(ethPluginFinalize_t *msg) {
         case DELEGATE:
             msg->numScreens = 1;
             break;
+        case MINT:
+            msg->numScreens = 3;
+            break;
         default:
             PRINTF("Selector index: %d not supported\n", context->selectorIndex);
             msg->result = ETH_PLUGIN_RESULT_ERROR;

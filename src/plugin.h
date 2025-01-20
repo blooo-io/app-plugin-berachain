@@ -27,7 +27,8 @@
 //     - a map named SELECTORS associating each NAME with it's value
 #define SELECTORS_LIST(X)              \
     X(CREATE_REWARD_VAULT, 0x577ee5c7) \
-    X(DELEGATE, 0x5c19a95c)
+    X(DELEGATE, 0x5c19a95c)            \
+    X(MINT, 0x0d4d1513)
 
 // Xmacro helpers to define the enum and map
 // Do not modify !
@@ -51,6 +52,7 @@ typedef enum {
     MIN_AMOUNT_RECEIVED = 0,
     TOKEN_RECEIVED,
     BENEFICIARY,
+    ADDRESS,
     PATH_OFFSET,
     PATH_LENGTH,
     UNEXPECTED_PARAMETER,
@@ -64,6 +66,7 @@ typedef struct context_s {
     // For display.
     uint8_t amount_received[INT256_LENGTH];
     uint8_t beneficiary[ADDRESS_LENGTH];
+    uint8_t address[ADDRESS_LENGTH];
     uint8_t token_received[ADDRESS_LENGTH];
     char ticker[MAX_TICKER_LEN];
     uint8_t decimals;
