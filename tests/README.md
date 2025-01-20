@@ -49,7 +49,7 @@ Several methods are available:
 - Clone the [Ethereum application](https://github.com/LedgerHQ/app-ethereum) in the `.test_dependencies/` directory and compile it.
 	- You will need to set the compilation flags manually to compile for tests.
 	- Open the [Ethereum application manifest](https://github.com/LedgerHQ/app-ethereum/blob/develop/ledger_app.toml) and use the flags from `use_test_keys`
-- Re-use the Ethereum build produced by a test CI, and available as artifact. Example here with the [plugin-boilerplate CI](https://github.com/LedgerHQ/app-plugin-boilerplate/actions/workflows/build_and_functional_tests.yml).
+- Re-use the Ethereum build produced by a test CI, and available as artifact. Example here with the [plugin-berachain CI](https://github.com/LedgerHQ/app-plugin-berachain/actions/workflows/build_and_functional_tests.yml).
 
 
 ## Launching the tests

@@ -1,7 +1,7 @@
 # CI with Github workflows
 
 [//]: # (Comment)
-[//]: # (This file when in the plugin-boilerplate repository is included in the Ethereum Plugin SDK Github page, keep that in mind when editing it.)
+[//]: # (This file when in the plugin-berachain repository is included in the Ethereum Plugin SDK Github page, keep that in mind when editing it.)
 
 The following Github workflows are provided for your application:
 
