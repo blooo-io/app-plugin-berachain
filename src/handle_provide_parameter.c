@@ -29,8 +29,6 @@ void handle_provide_parameter(ethPluginProvideParameter_t *msg) {
     // EDIT THIS: adapt the cases and the names of the functions.
     switch (context->selectorIndex) {
         case CREATE_REWARD_VAULT:
-            handle_beneficiary(msg, context);
-            break;
         case DELEGATE:
             handle_beneficiary(msg, context);
             break;
