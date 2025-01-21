@@ -41,6 +41,7 @@ void handle_init_contract(ethPluginInitContract_t *msg) {
     // EDIT THIS: Adapt the `cases`, and set the `next_param` to be the first parameter you expect
     // to parse.
     switch (context->selectorIndex) {
+        case CREATE_REWARD_VAULT:
         case DELEGATE:
             context->next_param = BENEFICIARY;
             break;

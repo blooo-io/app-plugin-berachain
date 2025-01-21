@@ -11,6 +11,10 @@ void handle_query_contract_id(ethQueryContractID_t *msg) {
 
     // EDIT THIS: Adapt the cases by modifying the strings you pass to `strlcpy`.
     switch (context->selectorIndex) {
+        case CREATE_REWARD_VAULT:
+            strlcpy(msg->version, "Create Reward Vault", msg->versionLength);
+            msg->result = ETH_PLUGIN_RESULT_OK;
+            break;
         case DELEGATE:
             strlcpy(msg->version, "Delegate", msg->versionLength);
             msg->result = ETH_PLUGIN_RESULT_OK;

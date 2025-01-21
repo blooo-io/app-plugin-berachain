@@ -1,6 +1,6 @@
 #include "plugin.h"
 
-static void handle_delegate(ethPluginProvideParameter_t *msg, context_t *context) {
+static void handle_beneficiary(ethPluginProvideParameter_t *msg, context_t *context) {
     switch (context->next_param) {
         case BENEFICIARY:
             copy_address(context->beneficiary, msg->parameter, sizeof(context->beneficiary));
@@ -24,13 +24,13 @@ void handle_provide_parameter(ethPluginProvideParameter_t *msg) {
            msg->parameterOffset,
            PARAMETER_LENGTH,
            msg->parameter);
-
     msg->result = ETH_PLUGIN_RESULT_OK;
 
     // EDIT THIS: adapt the cases and the names of the functions.
     switch (context->selectorIndex) {
+        case CREATE_REWARD_VAULT:
         case DELEGATE:
-            handle_delegate(msg, context);
+            handle_beneficiary(msg, context);
             break;
         default:
             PRINTF("Selector Index not supported: %d\n", context->selectorIndex);

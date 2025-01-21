@@ -44,9 +44,18 @@
 } */
 
 // Set UI for "Beneficiary" screen.
-// EDIT THIS: Adapt / remove this function to your needs.
 static bool set_beneficiary_ui(ethQueryContractUI_t *msg, context_t *context) {
-    strlcpy(msg->title, "Beneficiary", msg->titleLength);
+    switch (context->selectorIndex) {
+        case CREATE_REWARD_VAULT:
+            strlcpy(msg->title, "Address", msg->titleLength);
+            break;
+        case DELEGATE:
+            strlcpy(msg->title, "Beneficiary", msg->titleLength);
+            break;
+        default:
+            PRINTF("Received an invalid selectorIndex\n");
+            break;
+    }
 
     // Prefix the address with `0x`.
     msg->msg[0] = '0';
@@ -77,6 +86,7 @@ void handle_query_contract_ui(ethQueryContractUI_t *msg) {
 
     // EDIT THIS: Adapt the cases for the screens you'd like to display.
     switch (context->selectorIndex) {
+        case CREATE_REWARD_VAULT:
         case DELEGATE:
             switch (msg->screenIndex) {
                 case 0:
@@ -88,7 +98,7 @@ void handle_query_contract_ui(ethQueryContractUI_t *msg) {
             }
             break;
         default:
-            PRINTF("Received an invalid screenIndex\n");
+            PRINTF("Received an invalid selectorIndex\n");
             break;
     }
     msg->result = ret ? ETH_PLUGIN_RESULT_OK : ETH_PLUGIN_RESULT_ERROR;

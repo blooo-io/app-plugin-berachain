@@ -6,6 +6,7 @@ void handle_finalize(ethPluginFinalize_t *msg) {
     msg->uiType = ETH_UI_TYPE_GENERIC;
 
     switch (context->selectorIndex) {
+        case CREATE_REWARD_VAULT:
         case DELEGATE:
             msg->numScreens = 1;
             break;
