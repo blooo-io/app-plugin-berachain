@@ -46,6 +46,7 @@ void handle_init_contract(ethPluginInitContract_t *msg) {
             context->next_param = BENEFICIARY;
             break;
         case MINT:
+        case REDEEM:
             context->next_param = ADDRESS;
             break;
         // Keep this

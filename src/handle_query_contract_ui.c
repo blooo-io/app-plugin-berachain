@@ -143,6 +143,7 @@ void handle_query_contract_ui(ethQueryContractUI_t *msg) {
             }
             break;
         case MINT:
+        case REDEEM:
             switch (msg->screenIndex) {
                 case 0:
                     ret = set_address_ui(msg, context);

@@ -11,6 +11,7 @@ void handle_finalize(ethPluginFinalize_t *msg) {
             msg->numScreens = 1;
             break;
         case MINT:
+        case REDEEM:
             msg->numScreens = 4;
             break;
         default:

@@ -28,7 +28,8 @@
 #define SELECTORS_LIST(X)              \
     X(CREATE_REWARD_VAULT, 0x577ee5c7) \
     X(DELEGATE, 0x5c19a95c)            \
-    X(MINT, 0x328ebaf7)
+    X(MINT, 0x328ebaf7)                \
+    X(REDEEM, 0xed596315)
 
 // Xmacro helpers to define the enum and map
 // Do not modify !

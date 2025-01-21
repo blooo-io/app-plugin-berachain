@@ -15,7 +15,7 @@ static void handle_beneficiary(ethPluginProvideParameter_t *msg, context_t *cont
     }
 }
 
-static void handle_mint(ethPluginProvideParameter_t *msg, context_t *context) {
+static void handle_honey_functions(ethPluginProvideParameter_t *msg, context_t *context) {
     switch (context->next_param) {
         case ADDRESS:
             copy_address(context->address, msg->parameter, sizeof(context->address));
@@ -63,7 +63,8 @@ void handle_provide_parameter(ethPluginProvideParameter_t *msg) {
             handle_beneficiary(msg, context);
             break;
         case MINT:
-            handle_mint(msg, context);
+        case REDEEM:
+            handle_honey_functions(msg, context);
             break;
         default:
             PRINTF("Selector Index not supported: %d\n", context->selectorIndex);
