@@ -55,7 +55,6 @@ void handle_provide_parameter(ethPluginProvideParameter_t *msg) {
            msg->parameterOffset,
            PARAMETER_LENGTH,
            msg->parameter);
-
     msg->result = ETH_PLUGIN_RESULT_OK;
 
     // EDIT THIS: adapt the cases and the names of the functions.
