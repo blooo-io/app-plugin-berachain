@@ -23,7 +23,7 @@
 
 // Set UI for "Receive" screen.
 // EDIT THIS: Adapt / remove this function to your needs.
- static bool set_receive_ui(ethQueryContractUI_t *msg, const context_t *context) {
+static bool set_receive_ui(ethQueryContractUI_t *msg, const context_t *context) {
     strlcpy(msg->title, "Amount", msg->titleLength);
 
     uint8_t decimals = context->decimals;

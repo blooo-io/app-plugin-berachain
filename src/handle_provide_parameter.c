@@ -22,7 +22,9 @@ static void handle_honey_functions(ethPluginProvideParameter_t *msg, context_t *
             context->next_param = MIN_AMOUNT_RECEIVED;
             break;
         case MIN_AMOUNT_RECEIVED:
-            copy_parameter(context->amount_received, msg->parameter, sizeof(context->amount_received));
+            copy_parameter(context->amount_received, 
+                           msg->parameter, 
+                           sizeof(context->amount_received));
             context->next_param = BENEFICIARY;
             break;
         case BENEFICIARY:
