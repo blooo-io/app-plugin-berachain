@@ -1,7 +1,6 @@
 from pathlib import Path
 import json
 import os
-import datetime
 
 from web3 import Web3
 from eth_typing import ChainId
@@ -20,7 +19,7 @@ ABIS_FOLDER = "%s/abis" % (os.path.dirname(__file__))
 PLUGIN_NAME = get_appname_from_makefile()
 
 
-with open("%s/0x000102030405060708090a0b0c0d0e0f10111213.abi.json" % (ABIS_FOLDER)) as file:
+with open("%s/0x289274787baf083c15a45a174b7a8e44f0720660.abi.json" % (ABIS_FOLDER)) as file:
     contract = Web3().eth.contract(
         abi=json.load(file),
         # Get address from filename
@@ -29,17 +28,11 @@ with open("%s/0x000102030405060708090a0b0c0d0e0f10111213.abi.json" % (ABIS_FOLDE
 
 
 # EDIT THIS: build your own test
-def test_swap_exact_eth_for_token(backend, firmware, navigator, test_name, wallet_addr):
+def test_delegate(backend, firmware, navigator, test_name, wallet_addr):
     client = EthAppClient(backend)
 
-    data = contract.encodeABI("swapExactETHForTokens", [
-        Web3.to_wei(28.5, "ether"),
-        [
-            bytes.fromhex("C02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"),
-            bytes.fromhex("6B3595068778DD592e39A122f4f5a5cF09C90fE2")
-        ],
-        bytes.fromhex("d8dA6BF26964aF9D7eEd9e03E53415D37aA96045"),
-        int(datetime.datetime(2023, 12, 25, 0, 0).timestamp())
+    data = contract.encodeABI("delegate", [
+        bytes.fromhex("0be5debae3edfedd42f420247847d2a6f0fa598f")
     ])
 
     # first setup the external plugin
@@ -54,7 +47,7 @@ def test_swap_exact_eth_for_token(backend, firmware, navigator, test_name, walle
         "maxPriorityFeePerGas": Web3.to_wei(1.5, "gwei"),
         "gas": 173290,
         "to": contract.address,
-        "value": Web3.to_wei(0.1, "ether"),
+        "value": 0,
         "chainId": ChainId.ETH,
         "data": data
     }

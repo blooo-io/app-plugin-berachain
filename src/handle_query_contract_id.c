@@ -10,11 +10,14 @@ void handle_query_contract_id(ethQueryContractID_t *msg) {
     strlcpy(msg->name, APPNAME, msg->nameLength);
 
     // EDIT THIS: Adapt the cases by modifying the strings you pass to `strlcpy`.
-    if (context->selectorIndex == SWAP_EXACT_ETH_FOR_TOKENS) {
-        strlcpy(msg->version, "Swap", msg->versionLength);
-        msg->result = ETH_PLUGIN_RESULT_OK;
-    } else {
-        PRINTF("Selector index: %d not supported\n", context->selectorIndex);
-        msg->result = ETH_PLUGIN_RESULT_ERROR;
+    switch (context->selectorIndex) {
+        case DELEGATE:
+            strlcpy(msg->version, "Delegate", msg->versionLength);
+            msg->result = ETH_PLUGIN_RESULT_OK;
+            break;
+        default:
+            PRINTF("Selector index: %d not supported\n", context->selectorIndex);
+            msg->result = ETH_PLUGIN_RESULT_ERROR;
+            break;
     }
 }
