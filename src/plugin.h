@@ -28,7 +28,7 @@
 #define SELECTORS_LIST(X)              \
     X(CREATE_REWARD_VAULT, 0x577ee5c7) \
     X(DELEGATE, 0x5c19a95c)            \
-    X(MINT, 0x0d4d1513)
+    X(MINT, 0x328ebaf7)
 
 // Xmacro helpers to define the enum and map
 // Do not modify !
@@ -72,7 +72,7 @@ typedef struct context_s {
     char ticker[MAX_TICKER_LEN];
     uint8_t decimals;
     uint8_t token_found;
-    bool boolean;
+    uint16_t boolean;
     // For parsing data.
     uint8_t next_param;  // Set to be the next param we expect to parse.
     uint16_t offset;     // Offset at which the array or struct starts.

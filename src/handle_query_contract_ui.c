@@ -98,6 +98,26 @@ static bool set_address_ui(ethQueryContractUI_t *msg, context_t *context) {
         chainid);
 }
 
+static bool set_boolean_ui(ethQueryContractUI_t *msg, context_t *context) {
+    switch (context->selectorIndex) {
+        case MINT:
+            strlcpy(msg->title, "Basket Mode", msg->titleLength);
+            break;
+        default:
+            PRINTF("Received an invalid selectorIndex\n");
+            break;
+    }
+
+    if (context->boolean == 0) {
+        snprintf(msg->msg, msg->msgLength, "%s", "False");
+        return true;
+    } else {
+        snprintf(msg->msg, msg->msgLength, "%s", "True");
+        return true;
+    }
+    return false;
+}
+
 void handle_query_contract_ui(ethQueryContractUI_t *msg) {
     context_t *context = (context_t *) msg->pluginContext;
     bool ret = false;
@@ -128,10 +148,13 @@ void handle_query_contract_ui(ethQueryContractUI_t *msg) {
                     ret = set_address_ui(msg, context);
                     break;
                 case 1:
-                    ret = set_min_amount_received_ui(msg, context);
+                    ret = set_receive_ui(msg, context);
                     break;
                 case 2:
                     ret = set_beneficiary_ui(msg, context);
+                    break;
+                case 3:
+                    ret = set_boolean_ui(msg, context);
                     break;
                 default:
                     PRINTF("Received an invalid screenIndex\n");

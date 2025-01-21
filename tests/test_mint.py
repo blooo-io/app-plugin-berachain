@@ -19,7 +19,7 @@ ABIS_FOLDER = "%s/abis" % (os.path.dirname(__file__))
 PLUGIN_NAME = get_appname_from_makefile()
 
 
-with open("%s/0x289274787baf083c15a45a174b7a8e44f0720660.abi.json" % (ABIS_FOLDER)) as file:
+with open("%s/0xb05b8099d9de1e5cf07cd135d059d5a5ed484388.abi.json" % (ABIS_FOLDER)) as file:
     contract = Web3().eth.contract(
         abi=json.load(file),
         # Get address from filename
@@ -28,11 +28,14 @@ with open("%s/0x289274787baf083c15a45a174b7a8e44f0720660.abi.json" % (ABIS_FOLDE
 
 
 # EDIT THIS: build your own test
-def test_delegate(backend, firmware, navigator, test_name, wallet_addr):
+def test_mint(backend, firmware, navigator, test_name, wallet_addr):
     client = EthAppClient(backend)
 
-    data = contract.encode_abi("delegate", [
-        bytes.fromhex("0be5debae3edfedd42f420247847d2a6f0fa598f")
+    data = contract.encode_abi("mint", [
+        bytes.fromhex("015fd589F4f1A33ce4487E12714e1B15129c9329"),
+        Web3.to_wei(1.13, "ether"),
+        bytes.fromhex("4C368fFE3650379d6318C8d4630bc51f8Ad12bB6"),
+        False,
     ])
 
     # first setup the external plugin
