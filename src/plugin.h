@@ -53,6 +53,7 @@ typedef enum {
     TOKEN_RECEIVED,
     BENEFICIARY,
     ADDRESS,
+    BOOLEAN,
     PATH_OFFSET,
     PATH_LENGTH,
     UNEXPECTED_PARAMETER,
@@ -71,13 +72,12 @@ typedef struct context_s {
     char ticker[MAX_TICKER_LEN];
     uint8_t decimals;
     uint8_t token_found;
-
+    bool boolean;
     // For parsing data.
     uint8_t next_param;  // Set to be the next param we expect to parse.
     uint16_t offset;     // Offset at which the array or struct starts.
     bool go_to_offset;   // If set, will force the parsing to iterate through parameters until
                          // `offset` is reached.
-
     // For both parsing and display.
     selector_t selectorIndex;
 } context_t;

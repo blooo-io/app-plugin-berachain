@@ -11,7 +11,7 @@ void handle_finalize(ethPluginFinalize_t *msg) {
             msg->numScreens = 1;
             break;
         case MINT:
-            msg->numScreens = 3;
+            msg->numScreens = 4;
             break;
         default:
             PRINTF("Selector index: %d not supported\n", context->selectorIndex);

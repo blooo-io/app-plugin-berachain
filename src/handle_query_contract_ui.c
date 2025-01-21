@@ -24,7 +24,7 @@
 // Set UI for "Receive" screen.
 // EDIT THIS: Adapt / remove this function to your needs.
  static bool set_receive_ui(ethQueryContractUI_t *msg, const context_t *context) {
-    strlcpy(msg->title, "Receive Min.", msg->titleLength);
+    strlcpy(msg->title, "Amount", msg->titleLength);
 
     uint8_t decimals = context->decimals;
     const char *ticker = context->ticker;
@@ -50,10 +50,8 @@ static bool set_beneficiary_ui(ethQueryContractUI_t *msg, context_t *context) {
             strlcpy(msg->title, "Address", msg->titleLength);
             break;
         case DELEGATE:
-            strlcpy(msg->title, "Beneficiary", msg->titleLength);
-            break;
         case MINT:
-            strlcpy(msg->title, "To", msg->titleLength);
+            strlcpy(msg->title, "Beneficiary", msg->titleLength);
             break;
         default:
             PRINTF("Received an invalid selectorIndex\n");
@@ -79,7 +77,7 @@ static bool set_beneficiary_ui(ethQueryContractUI_t *msg, context_t *context) {
 static bool set_address_ui(ethQueryContractUI_t *msg, context_t *context) {
     switch (context->selectorIndex) {
         case MINT:
-            strlcpy(msg->title, "Core", msg->titleLength);
+            strlcpy(msg->title, "Address", msg->titleLength);
             break;
         default:
             PRINTF("Received an invalid selectorIndex\n");

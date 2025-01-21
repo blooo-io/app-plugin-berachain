@@ -42,6 +42,9 @@ static void handle_mint(ethPluginProvideParameter_t *msg, context_t *context) {
             break;
         case BENEFICIARY:
             copy_address(context->beneficiary, msg->parameter, sizeof(context->beneficiary));
+            context->next_param = BOOLEAN;
+            break;
+        case BOOLEAN:
             context->next_param = NONE;
             break;
         case NONE:
