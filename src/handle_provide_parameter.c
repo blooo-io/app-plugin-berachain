@@ -22,8 +22,8 @@ static void handle_honey_functions(ethPluginProvideParameter_t *msg, context_t *
             context->next_param = MIN_AMOUNT_RECEIVED;
             break;
         case MIN_AMOUNT_RECEIVED:
-            copy_parameter(context->amount_received, 
-                           msg->parameter, 
+            copy_parameter(context->amount_received,
+                           msg->parameter,
                            sizeof(context->amount_received));
             context->next_param = BENEFICIARY;
             break;
@@ -55,7 +55,6 @@ void handle_provide_parameter(ethPluginProvideParameter_t *msg) {
            msg->parameterOffset,
            PARAMETER_LENGTH,
            msg->parameter);
-
     msg->result = ETH_PLUGIN_RESULT_OK;
 
     // EDIT THIS: adapt the cases and the names of the functions.
