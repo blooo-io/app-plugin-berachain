@@ -51,6 +51,7 @@ static bool set_beneficiary_ui(ethQueryContractUI_t *msg, context_t *context) {
             break;
         case DELEGATE:
         case MINT:
+        case REDEEM:
             strlcpy(msg->title, "Beneficiary", msg->titleLength);
             break;
         default:
@@ -77,6 +78,7 @@ static bool set_beneficiary_ui(ethQueryContractUI_t *msg, context_t *context) {
 static bool set_address_ui(ethQueryContractUI_t *msg, context_t *context) {
     switch (context->selectorIndex) {
         case MINT:
+        case REDEEM:
             strlcpy(msg->title, "Address", msg->titleLength);
             break;
         default:
@@ -101,6 +103,7 @@ static bool set_address_ui(ethQueryContractUI_t *msg, context_t *context) {
 static bool set_boolean_ui(ethQueryContractUI_t *msg, context_t *context) {
     switch (context->selectorIndex) {
         case MINT:
+        case REDEEM:
             strlcpy(msg->title, "Basket Mode", msg->titleLength);
             break;
         default:
