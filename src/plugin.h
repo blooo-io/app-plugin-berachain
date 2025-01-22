@@ -27,7 +27,8 @@
 //     - a map named SELECTORS associating each NAME with it's value
 #define SELECTORS_LIST(X)              \
     X(CREATE_REWARD_VAULT, 0x577ee5c7) \
-    X(DELEGATE, 0x5c19a95c)
+    X(DELEGATE, 0x5c19a95c)            \
+    X(MINT, 0x328ebaf7)
 
 // Xmacro helpers to define the enum and map
 // Do not modify !
@@ -51,6 +52,8 @@ typedef enum {
     MIN_AMOUNT_RECEIVED = 0,
     TOKEN_RECEIVED,
     BENEFICIARY,
+    ADDRESS,
+    BOOLEAN,
     PATH_OFFSET,
     PATH_LENGTH,
     UNEXPECTED_PARAMETER,
@@ -64,17 +67,17 @@ typedef struct context_s {
     // For display.
     uint8_t amount_received[INT256_LENGTH];
     uint8_t beneficiary[ADDRESS_LENGTH];
+    uint8_t address[ADDRESS_LENGTH];
     uint8_t token_received[ADDRESS_LENGTH];
     char ticker[MAX_TICKER_LEN];
     uint8_t decimals;
     uint8_t token_found;
-
+    uint16_t boolean;
     // For parsing data.
     uint8_t next_param;  // Set to be the next param we expect to parse.
     uint16_t offset;     // Offset at which the array or struct starts.
     bool go_to_offset;   // If set, will force the parsing to iterate through parameters until
                          // `offset` is reached.
-
     // For both parsing and display.
     selector_t selectorIndex;
 } context_t;

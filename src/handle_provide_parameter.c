@@ -15,6 +15,37 @@ static void handle_beneficiary(ethPluginProvideParameter_t *msg, context_t *cont
     }
 }
 
+static void handle_mint(ethPluginProvideParameter_t *msg, context_t *context) {
+    switch (context->next_param) {
+        case ADDRESS:
+            copy_address(context->address, msg->parameter, sizeof(context->address));
+            context->next_param = MIN_AMOUNT_RECEIVED;
+            break;
+        case MIN_AMOUNT_RECEIVED:
+            copy_parameter(context->amount_received,
+                           msg->parameter,
+                           sizeof(context->amount_received));
+            context->next_param = BENEFICIARY;
+            break;
+        case BENEFICIARY:
+            copy_address(context->beneficiary, msg->parameter, sizeof(context->beneficiary));
+            context->next_param = BOOLEAN;
+            break;
+        case BOOLEAN:
+            if (!U2BE_from_parameter(msg->parameter, &context->boolean)) {
+                msg->result = ETH_PLUGIN_RESULT_ERROR;
+            }
+            context->next_param = NONE;
+            break;
+        case NONE:
+            break;
+        default:
+            PRINTF("Param not supported: %d\n", context->next_param);
+            msg->result = ETH_PLUGIN_RESULT_ERROR;
+            break;
+    }
+}
+
 void handle_provide_parameter(ethPluginProvideParameter_t *msg) {
     context_t *context = (context_t *) msg->pluginContext;
     // We use `%.*H`: it's a utility function to print bytes. You first give
@@ -31,6 +62,9 @@ void handle_provide_parameter(ethPluginProvideParameter_t *msg) {
         case CREATE_REWARD_VAULT:
         case DELEGATE:
             handle_beneficiary(msg, context);
+            break;
+        case MINT:
+            handle_mint(msg, context);
             break;
         default:
             PRINTF("Selector Index not supported: %d\n", context->selectorIndex);
