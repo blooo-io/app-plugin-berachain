@@ -162,6 +162,7 @@ static bool set_boolean_ui(ethQueryContractUI_t *msg, context_t *context) {
 static bool set_public_key_ui(ethQueryContractUI_t *msg, context_t *context, bool first_chunk) {
     switch (context->selectorIndex) {
         case CANCEL_BOOST:
+        case QUEUE_BOOST:
             if (first_chunk) {
                 strlcpy(msg->title, "Public Key Pt 1", msg->titleLength);
             } else {
@@ -240,6 +241,7 @@ void handle_query_contract_ui(ethQueryContractUI_t *msg) {
             }
             break;
         case CANCEL_BOOST:
+        case QUEUE_BOOST:
             switch (msg->screenIndex) {
                 case 0:
                     ret = set_public_key_ui(msg, context, true);

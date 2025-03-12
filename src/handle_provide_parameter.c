@@ -46,7 +46,7 @@ static void handle_mint(ethPluginProvideParameter_t *msg, context_t *context) {
     }
 }
 
-static void handle_cancel_boost(ethPluginProvideParameter_t *msg, context_t *context) {
+static void handle_public_key_and_amount(ethPluginProvideParameter_t *msg, context_t *context) {
     switch (context->next_param) {
         case OFFSET:
             context->offset = msg->parameter[0];
@@ -107,7 +107,8 @@ void handle_provide_parameter(ethPluginProvideParameter_t *msg) {
             handle_mint(msg, context);
             break;
         case CANCEL_BOOST:
-            handle_cancel_boost(msg, context);
+        case QUEUE_BOOST:
+            handle_public_key_and_amount(msg, context);
             break;
         default:
             PRINTF("Selector Index not supported: %d\n", context->selectorIndex);

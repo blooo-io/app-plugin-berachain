@@ -49,6 +49,7 @@ void handle_init_contract(ethPluginInitContract_t *msg) {
             context->next_param = ADDRESS;
             break;
         case CANCEL_BOOST:
+        case QUEUE_BOOST:
             context->next_param = OFFSET;
             break;
         // Keep this

@@ -29,8 +29,8 @@
     X(CREATE_REWARD_VAULT, 0x577ee5c7) \
     X(DELEGATE, 0x5c19a95c)            \
     X(MINT, 0x328ebaf7)                \
-    X(CANCEL_BOOST, 0xf59f3cbf)
-
+    X(CANCEL_BOOST, 0xf59f3cbf)        \
+    X(QUEUE_BOOST, 0x489fa30a)         \
 // Xmacro helpers to define the enum and map
 // Do not modify !
 #define TO_ENUM(selector_name, selector_id)  selector_name,
