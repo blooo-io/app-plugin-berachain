@@ -28,7 +28,8 @@
 #define SELECTORS_LIST(X)              \
     X(CREATE_REWARD_VAULT, 0x577ee5c7) \
     X(DELEGATE, 0x5c19a95c)            \
-    X(MINT, 0x328ebaf7)
+    X(MINT, 0x328ebaf7)                \
+    X(CANCEL_BOOST, 0xf59f3cbf)
 
 // Xmacro helpers to define the enum and map
 // Do not modify !
@@ -54,10 +55,10 @@ typedef enum {
     BENEFICIARY,
     ADDRESS,
     BOOLEAN,
-    PATH_OFFSET,
-    PATH_LENGTH,
-    UNEXPECTED_PARAMETER,
+    OFFSET,
+    LENGTH,
     NONE,
+    PUBLIC_KEY
 } parameter;
 
 // Shared global memory with Ethereum app. Must be at most 5 * 32 bytes.
@@ -69,6 +70,7 @@ typedef struct context_s {
     uint8_t beneficiary[ADDRESS_LENGTH];
     uint8_t address[ADDRESS_LENGTH];
     uint8_t token_received[ADDRESS_LENGTH];
+    uint8_t public_key[32];
     char ticker[MAX_TICKER_LEN];
     uint8_t decimals;
     uint8_t token_found;
@@ -78,9 +80,13 @@ typedef struct context_s {
     uint16_t offset;     // Offset at which the array or struct starts.
     bool go_to_offset;   // If set, will force the parsing to iterate through parameters until
                          // `offset` is reached.
+    uint8_t remainingLength;
+    uint8_t initialLength;
     // For both parsing and display.
     selector_t selectorIndex;
 } context_t;
+
+// 32 + 20 + 20 + 20 + 32 + 11 + 1 + 1 + 2 + 1 + 2 + 1 + 1 + 1= 146
 
 // Check if the context structure will fit in the RAM section ETH will prepare for us
 // Do not remove!

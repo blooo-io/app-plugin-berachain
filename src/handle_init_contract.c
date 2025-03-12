@@ -48,6 +48,9 @@ void handle_init_contract(ethPluginInitContract_t *msg) {
         case MINT:
             context->next_param = ADDRESS;
             break;
+        case CANCEL_BOOST:
+            context->next_param = OFFSET;
+            break;
         // Keep this
         default:
             PRINTF("Missing selectorIndex: %d\n", context->selectorIndex);
