@@ -23,7 +23,7 @@ PLUGIN_NAME = get_appname_from_makefile()
 
 
 with open(
-    "%s/0x289274787baf083c15a45a174b7a8e44f0720660.abi.json" % (ABIS_FOLDER)
+    "%s/0x656b95e550c07a9ffe548bd4085c72418ceb1dba.abi.json" % (ABIS_FOLDER)
 ) as file:
     contract = Web3().eth.contract(
         abi=json.load(file),
@@ -32,7 +32,6 @@ with open(
     )
 
 
-# EDIT THIS: build your own test
 def test_cancel_boost(backend, firmware, navigator, test_name, wallet_addr):
     client = EthAppClient(backend)
     public_key = "97266c94c490662479a9188b070c86e505df4f167016883af4114c8c1a71429e8f270c0c2f1b74375880f81828b768c0"
