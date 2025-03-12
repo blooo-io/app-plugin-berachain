@@ -120,6 +120,9 @@ static bool set_address_ui(ethQueryContractUI_t *msg, context_t *context) {
         case MINT:
             strlcpy(msg->title, "Address", msg->titleLength);
             break;
+        case ACTIVATE_BOOST:
+            strlcpy(msg->title, "User Address", msg->titleLength);
+            break;
         default:
             PRINTF("Received an invalid selectorIndex\n");
             break;
@@ -163,6 +166,7 @@ static bool set_public_key_ui(ethQueryContractUI_t *msg, context_t *context, boo
     switch (context->selectorIndex) {
         case CANCEL_BOOST:
         case QUEUE_BOOST:
+        case ACTIVATE_BOOST:
             if (first_chunk) {
                 strlcpy(msg->title, "Public Key Pt 1", msg->titleLength);
             } else {
@@ -186,7 +190,7 @@ static bool set_public_key_ui(ethQueryContractUI_t *msg, context_t *context, boo
         }
     } else {
         // Format the second chunk of the public key as a hex string
-        if (local_format_hex(context->address,
+        if (local_format_hex(context->beneficiary,
                              16,  // Last 16 bytes of public key
                              msg->msg,
                              msg->msgLength) != -1) {
@@ -254,6 +258,19 @@ void handle_query_contract_ui(ethQueryContractUI_t *msg) {
                     break;
                 default:
                     PRINTF("Received an invalid screenIndex\n");
+                    break;
+            }
+            break;
+        case ACTIVATE_BOOST:
+            switch (msg->screenIndex) {
+                case 0:
+                    ret = set_address_ui(msg, context);
+                    break;
+                case 1:
+                    ret = set_public_key_ui(msg, context, true);
+                    break;
+                case 2:
+                    ret = set_public_key_ui(msg, context, false);
                     break;
             }
             break;

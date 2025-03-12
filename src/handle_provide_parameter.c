@@ -69,8 +69,46 @@ static void handle_public_key_and_amount(ethPluginProvideParameter_t *msg, conte
                 context->remainingLength -= sizeof(context->public_key);
                 context->next_param = PUBLIC_KEY;
             } else {
-                // Copy the next 16 bytes of the public key inside address
-                copy_parameter(context->address, msg->parameter, 16);
+                // Copy the last 16 bytes of the public key inside the beneficiary variable
+                copy_parameter(context->beneficiary, msg->parameter, 16);
+                context->remainingLength -= 16;
+                if (context->remainingLength == 0) {
+                    context->next_param = NONE;
+                }
+            }
+            break;
+        case NONE:
+            break;
+        default:
+            PRINTF("Param not supported: %d\n", context->next_param);
+            msg->result = ETH_PLUGIN_RESULT_ERROR;
+            break;
+    }
+}
+
+static void handle_address_and_public_key(ethPluginProvideParameter_t *msg, context_t *context) {
+    switch (context->next_param) {
+        case ADDRESS:
+            copy_address(context->address, msg->parameter, sizeof(context->address));
+            context->next_param = OFFSET;
+            break;
+        case OFFSET:
+            context->offset = msg->parameter[0];
+            context->next_param = LENGTH;
+            break;
+        case LENGTH:
+            context->initialLength = msg->parameter[0];
+            context->remainingLength = context->initialLength;
+            context->next_param = PUBLIC_KEY;
+            break;
+        case PUBLIC_KEY:
+            if (context->remainingLength == context->initialLength) {
+                copy_parameter(context->public_key, msg->parameter, sizeof(context->public_key));
+                context->remainingLength -= sizeof(context->public_key);
+                context->next_param = PUBLIC_KEY;
+            } else {
+                // Copy the last 16 bytes of the public key inside the beneficiary variable
+                copy_parameter(context->beneficiary, msg->parameter, 16);
                 context->remainingLength -= 16;
                 if (context->remainingLength == 0) {
                     context->next_param = NONE;
@@ -109,6 +147,9 @@ void handle_provide_parameter(ethPluginProvideParameter_t *msg) {
         case CANCEL_BOOST:
         case QUEUE_BOOST:
             handle_public_key_and_amount(msg, context);
+            break;
+        case ACTIVATE_BOOST:
+            handle_address_and_public_key(msg, context);
             break;
         default:
             PRINTF("Selector Index not supported: %d\n", context->selectorIndex);

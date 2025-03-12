@@ -15,6 +15,7 @@ void handle_finalize(ethPluginFinalize_t *msg) {
             break;
         case CANCEL_BOOST:
         case QUEUE_BOOST:
+        case ACTIVATE_BOOST:
             msg->numScreens = 3;
             break;
         default:
