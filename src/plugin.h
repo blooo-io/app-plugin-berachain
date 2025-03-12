@@ -32,6 +32,7 @@
     X(CANCEL_BOOST, 0xf59f3cbf)        \
     X(QUEUE_BOOST, 0x489fa30a)         \
     X(ACTIVATE_BOOST, 0x9b05e781)      \
+    X(DROP_BOOST, 0x814d2614)          \
 // Xmacro helpers to define the enum and map
 // Do not modify !
 #define TO_ENUM(selector_name, selector_id)  selector_name,

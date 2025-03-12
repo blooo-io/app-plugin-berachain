@@ -121,6 +121,7 @@ static bool set_address_ui(ethQueryContractUI_t *msg, context_t *context) {
             strlcpy(msg->title, "Address", msg->titleLength);
             break;
         case ACTIVATE_BOOST:
+        case DROP_BOOST:
             strlcpy(msg->title, "User Address", msg->titleLength);
             break;
         default:
@@ -167,6 +168,7 @@ static bool set_public_key_ui(ethQueryContractUI_t *msg, context_t *context, boo
         case CANCEL_BOOST:
         case QUEUE_BOOST:
         case ACTIVATE_BOOST:
+        case DROP_BOOST:
             if (first_chunk) {
                 strlcpy(msg->title, "Public Key Pt 1", msg->titleLength);
             } else {
@@ -262,6 +264,7 @@ void handle_query_contract_ui(ethQueryContractUI_t *msg) {
             }
             break;
         case ACTIVATE_BOOST:
+        case DROP_BOOST:
             switch (msg->screenIndex) {
                 case 0:
                     ret = set_address_ui(msg, context);

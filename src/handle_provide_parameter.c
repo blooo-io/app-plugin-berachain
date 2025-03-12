@@ -149,6 +149,7 @@ void handle_provide_parameter(ethPluginProvideParameter_t *msg) {
             handle_public_key_and_amount(msg, context);
             break;
         case ACTIVATE_BOOST:
+        case DROP_BOOST:
             handle_address_and_public_key(msg, context);
             break;
         default:
