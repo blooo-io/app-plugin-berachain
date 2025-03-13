@@ -52,6 +52,8 @@ void handle_init_contract(ethPluginInitContract_t *msg) {
             break;
         case CANCEL_BOOST:
         case QUEUE_BOOST:
+        case CANCEL_DROP_BOOST:
+        case QUEUE_DROP_BOOST:
             context->next_param = OFFSET;
             break;
         // Keep this

@@ -124,6 +124,23 @@ static void handle_address_and_public_key(ethPluginProvideParameter_t *msg, cont
     }
 }
 
+static void handle_amount(ethPluginProvideParameter_t *msg, context_t *context) {
+    switch (context->next_param) {
+        case MIN_AMOUNT_RECEIVED:
+            copy_parameter(context->amount_received,
+                           msg->parameter,
+                           sizeof(context->amount_received));
+            context->next_param = NONE;
+            break;
+        case NONE:
+            break;
+        default:
+            PRINTF("Param not supported: %d\n", context->next_param);
+            msg->result = ETH_PLUGIN_RESULT_ERROR;
+            break;
+    }
+}
+
 void handle_provide_parameter(ethPluginProvideParameter_t *msg) {
     context_t *context = (context_t *) msg->pluginContext;
     // We use `%.*H`: it's a utility function to print bytes. You first give
@@ -146,6 +163,8 @@ void handle_provide_parameter(ethPluginProvideParameter_t *msg) {
             break;
         case CANCEL_BOOST:
         case QUEUE_BOOST:
+        case CANCEL_DROP_BOOST:
+        case QUEUE_DROP_BOOST:
             handle_public_key_and_amount(msg, context);
             break;
         case ACTIVATE_BOOST:

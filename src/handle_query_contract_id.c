@@ -39,6 +39,14 @@ void handle_query_contract_id(ethQueryContractID_t *msg) {
             strlcpy(msg->version, "Drop Boost", msg->versionLength);
             msg->result = ETH_PLUGIN_RESULT_OK;
             break;
+        case CANCEL_DROP_BOOST:
+            strlcpy(msg->version, "Cancel Drop Boost", msg->versionLength);
+            msg->result = ETH_PLUGIN_RESULT_OK;
+            break;
+        case QUEUE_DROP_BOOST:
+            strlcpy(msg->version, "Queue Drop Boost", msg->versionLength);
+            msg->result = ETH_PLUGIN_RESULT_OK;
+            break;
         default:
             PRINTF("Selector index: %d not supported\n", context->selectorIndex);
             msg->result = ETH_PLUGIN_RESULT_ERROR;
