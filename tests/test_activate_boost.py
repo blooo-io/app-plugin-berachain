@@ -32,14 +32,18 @@ with open(
     )
 
 
-# EDIT THIS: build your own test
-def test_delegate(backend, firmware, navigator, test_name, wallet_addr):
+def test_activate_boost(backend, firmware, navigator, test_name, wallet_addr):
     client = EthAppClient(backend)
-
+    user_address = "8F5Db7DE1148dE9b762c8ddB9FB30B31D76843f3"
+    public_key = "97266c94c490662479a9188b070c86e505df4f167016883af4114c8c1a71429e8f270c0c2f1b74375880f81828b768c0"
     data = contract.encode_abi(
-        "delegate", [bytes.fromhex("0be5debae3edfedd42f420247847d2a6f0fa598f")]
+        "activateBoost",
+        [
+            bytes.fromhex(user_address),
+            bytes.fromhex(public_key),
+        ],
     )
-
+    print("km-logs ---- [test_activate_boost.py] (test_activate_boost) data: %s" % data)
     # first setup the external plugin
     client.set_external_plugin(
         PLUGIN_NAME,
