@@ -7,7 +7,10 @@ from eth_typing import ChainId
 
 from ledger_app_clients.ethereum.client import EthAppClient
 import ledger_app_clients.ethereum.response_parser as ResponseParser
-from ledger_app_clients.ethereum.utils import get_selector_from_data, recover_transaction
+from ledger_app_clients.ethereum.utils import (
+    get_selector_from_data,
+    recover_transaction,
+)
 from ragger.navigator import NavInsID
 
 from .utils import get_appname_from_makefile, DERIVATION_PATH
@@ -19,11 +22,13 @@ ABIS_FOLDER = "%s/abis" % (os.path.dirname(__file__))
 PLUGIN_NAME = get_appname_from_makefile()
 
 
-with open("%s/0x289274787baf083c15a45a174b7a8e44f0720660.abi.json" % (ABIS_FOLDER)) as file:
+with open(
+    "%s/0x656b95e550c07a9ffe548bd4085c72418ceb1dba.abi.json" % (ABIS_FOLDER)
+) as file:
     contract = Web3().eth.contract(
         abi=json.load(file),
         # Get address from filename
-        address=bytes.fromhex(os.path.basename(file.name).split(".")[0].split("x")[-1])
+        address=bytes.fromhex(os.path.basename(file.name).split(".")[0].split("x")[-1]),
     )
 
 
@@ -31,15 +36,17 @@ with open("%s/0x289274787baf083c15a45a174b7a8e44f0720660.abi.json" % (ABIS_FOLDE
 def test_delegate(backend, firmware, navigator, test_name, wallet_addr):
     client = EthAppClient(backend)
 
-    data = contract.encode_abi("delegate", [
-        bytes.fromhex("0be5debae3edfedd42f420247847d2a6f0fa598f")
-    ])
+    data = contract.encode_abi(
+        "delegate", [bytes.fromhex("0be5debae3edfedd42f420247847d2a6f0fa598f")]
+    )
 
     # first setup the external plugin
-    client.set_external_plugin(PLUGIN_NAME,
-                               contract.address,
-                               # Extract function selector from the encoded data
-                               get_selector_from_data(data))
+    client.set_external_plugin(
+        PLUGIN_NAME,
+        contract.address,
+        # Extract function selector from the encoded data
+        get_selector_from_data(data),
+    )
 
     tx_params = {
         "nonce": 20,
@@ -49,24 +56,27 @@ def test_delegate(backend, firmware, navigator, test_name, wallet_addr):
         "to": contract.address,
         "value": 0,
         "chainId": ChainId.ETH,
-        "data": data
+        "data": data,
     }
     # send the transaction
     with client.sign(DERIVATION_PATH, tx_params):
         # Validate the on-screen request by performing the navigation appropriate for this device
         if firmware.is_nano:
-            navigator.navigate_until_text_and_compare(NavInsID.RIGHT_CLICK,
-                                                      [NavInsID.BOTH_CLICK],
-                                                      "Accept",
-                                                      ROOT_SCREENSHOT_PATH,
-                                                      test_name)
+            navigator.navigate_until_text_and_compare(
+                NavInsID.RIGHT_CLICK,
+                [NavInsID.BOTH_CLICK],
+                "Accept",
+                ROOT_SCREENSHOT_PATH,
+                test_name,
+            )
         else:
-            navigator.navigate_until_text_and_compare(NavInsID.SWIPE_CENTER_TO_LEFT,
-                                                      [NavInsID.USE_CASE_REVIEW_CONFIRM,
-                                                       NavInsID.USE_CASE_STATUS_DISMISS],
-                                                      "Hold to sign",
-                                                      ROOT_SCREENSHOT_PATH,
-                                                      test_name)
+            navigator.navigate_until_text_and_compare(
+                NavInsID.SWIPE_CENTER_TO_LEFT,
+                [NavInsID.USE_CASE_REVIEW_CONFIRM, NavInsID.USE_CASE_STATUS_DISMISS],
+                "Hold to sign",
+                ROOT_SCREENSHOT_PATH,
+                test_name,
+            )
     # verify signature
     vrs = ResponseParser.signature(client.response().data)
     addr = recover_transaction(tx_params, vrs)

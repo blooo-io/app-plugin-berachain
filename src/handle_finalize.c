@@ -14,6 +14,12 @@ void handle_finalize(ethPluginFinalize_t *msg) {
         case REDEEM:
             msg->numScreens = 4;
             break;
+        case CANCEL_BOOST:
+        case QUEUE_BOOST:
+        case ACTIVATE_BOOST:
+        case DROP_BOOST:
+            msg->numScreens = 3;
+            break;
         default:
             PRINTF("Selector index: %d not supported\n", context->selectorIndex);
             msg->result = ETH_PLUGIN_RESULT_ERROR;

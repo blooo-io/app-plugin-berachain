@@ -21,6 +21,47 @@
                           msg->msgLength);
 } */
 
+/**
+ * Format byte buffer to uppercase hexadecimal string.
+ *
+ * @param[in]  in
+ *   Pointer to input byte buffer.
+ * @param[in]  in_len
+ *   Length of input byte buffer.
+ * @param[out] out
+ *   Pointer to output string.
+ * @param[in]  out_len
+ *   Length of output string.
+ *
+ * @return number of bytes written if success, -1 otherwise.
+ *
+ */
+static int local_format_hex(const uint8_t *in, size_t in_len, char *out, size_t out_len) {
+    if (out_len < 2 * in_len + 1) {
+        return -1;
+    }
+
+    const char hex[] = "0123456789ABCDEF";
+    size_t i = 0;
+    int written = 0;
+
+    while (i < in_len && (i * 2 + (2 + 1)) <= out_len) {
+        uint8_t high_nibble = (in[i] & 0xF0) >> 4;
+        *out = hex[high_nibble];
+        out++;
+
+        uint8_t low_nibble = in[i] & 0x0F;
+        *out = hex[low_nibble];
+        out++;
+
+        i++;
+        written += 2;
+    }
+
+    *out = '\0';
+
+    return written + 1;
+}
 // Set UI for "Receive" screen.
 // EDIT THIS: Adapt / remove this function to your needs.
 static bool set_receive_ui(ethQueryContractUI_t *msg, const context_t *context) {
@@ -81,6 +122,10 @@ static bool set_address_ui(ethQueryContractUI_t *msg, context_t *context) {
         case REDEEM:
             strlcpy(msg->title, "Address", msg->titleLength);
             break;
+        case ACTIVATE_BOOST:
+        case DROP_BOOST:
+            strlcpy(msg->title, "User Address", msg->titleLength);
+            break;
         default:
             PRINTF("Received an invalid selectorIndex\n");
             break;
@@ -118,6 +163,46 @@ static bool set_boolean_ui(ethQueryContractUI_t *msg, context_t *context) {
         snprintf(msg->msg, msg->msgLength, "%s", "True");
         return true;
     }
+    return false;
+}
+
+static bool set_public_key_ui(ethQueryContractUI_t *msg, context_t *context, bool first_chunk) {
+    switch (context->selectorIndex) {
+        case CANCEL_BOOST:
+        case QUEUE_BOOST:
+        case ACTIVATE_BOOST:
+        case DROP_BOOST:
+            if (first_chunk) {
+                strlcpy(msg->title, "Public Key Pt 1", msg->titleLength);
+            } else {
+                strlcpy(msg->title, "Public Key Pt 2", msg->titleLength);
+            }
+            break;
+        default:
+            PRINTF("Received an invalid selectorIndex\n");
+            break;
+    }
+
+    if (first_chunk) {
+        // Format the first chunk of the public key as a hex string
+        msg->msg[0] = '0';
+        msg->msg[1] = 'x';
+        if (local_format_hex(context->public_key,
+                             32,  // First 32 bytes of public key
+                             msg->msg + 2,
+                             msg->msgLength - 2) != -1) {
+            return true;
+        }
+    } else {
+        // Format the second chunk of the public key as a hex string
+        if (local_format_hex(context->beneficiary,
+                             16,  // Last 16 bytes of public key
+                             msg->msg,
+                             msg->msgLength) != -1) {
+            return true;
+        }
+    }
+
     return false;
 }
 
@@ -162,6 +247,37 @@ void handle_query_contract_ui(ethQueryContractUI_t *msg) {
                     break;
                 default:
                     PRINTF("Received an invalid screenIndex\n");
+                    break;
+            }
+            break;
+        case CANCEL_BOOST:
+        case QUEUE_BOOST:
+            switch (msg->screenIndex) {
+                case 0:
+                    ret = set_public_key_ui(msg, context, true);
+                    break;
+                case 1:
+                    ret = set_public_key_ui(msg, context, false);
+                    break;
+                case 2:
+                    ret = set_receive_ui(msg, context);
+                    break;
+                default:
+                    PRINTF("Received an invalid screenIndex\n");
+                    break;
+            }
+            break;
+        case ACTIVATE_BOOST:
+        case DROP_BOOST:
+            switch (msg->screenIndex) {
+                case 0:
+                    ret = set_address_ui(msg, context);
+                    break;
+                case 1:
+                    ret = set_public_key_ui(msg, context, true);
+                    break;
+                case 2:
+                    ret = set_public_key_ui(msg, context, false);
                     break;
             }
             break;

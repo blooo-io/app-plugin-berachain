@@ -25,6 +25,20 @@ void handle_query_contract_id(ethQueryContractID_t *msg) {
             break;
         case REDEEM:
             strlcpy(msg->version, "Redeem", msg->versionLength);
+        case CANCEL_BOOST:
+            strlcpy(msg->version, "Cancel Boost", msg->versionLength);
+            msg->result = ETH_PLUGIN_RESULT_OK;
+            break;
+        case QUEUE_BOOST:
+            strlcpy(msg->version, "Queue Boost", msg->versionLength);
+            msg->result = ETH_PLUGIN_RESULT_OK;
+            break;
+        case ACTIVATE_BOOST:
+            strlcpy(msg->version, "Activate Boost", msg->versionLength);
+            msg->result = ETH_PLUGIN_RESULT_OK;
+            break;
+        case DROP_BOOST:
+            strlcpy(msg->version, "Drop Boost", msg->versionLength);
             msg->result = ETH_PLUGIN_RESULT_OK;
             break;
         default:
