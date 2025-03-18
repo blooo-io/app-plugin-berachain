@@ -56,6 +56,9 @@ void handle_init_contract(ethPluginInitContract_t *msg) {
         case QUEUE_DROP_BOOST:
             context->next_param = OFFSET;
             break;
+        case STAKE:
+            context->next_param = MIN_AMOUNT_RECEIVED;
+            break;
         // Keep this
         default:
             PRINTF("Missing selectorIndex: %d\n", context->selectorIndex);

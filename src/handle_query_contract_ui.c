@@ -268,6 +268,13 @@ void handle_query_contract_ui(ethQueryContractUI_t *msg) {
                     break;
             }
             break;
+        case STAKE:
+            switch (msg->screenIndex) {
+                case 0:
+                    ret = set_amount_ui(msg, context);
+                    break;
+            }
+            break;
         default:
             PRINTF("Received an invalid selectorIndex\n");
             break;

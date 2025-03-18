@@ -8,6 +8,7 @@ void handle_finalize(ethPluginFinalize_t *msg) {
     switch (context->selectorIndex) {
         case CREATE_REWARD_VAULT:
         case DELEGATE:
+        case STAKE:
             msg->numScreens = 1;
             break;
         case MINT:
