@@ -1,6 +1,6 @@
 #include "plugin.h"
 
-// EDIT THIS: You need to adapt / remove the static functions (set_send_ui, set_receive_ui ...) to
+// EDIT THIS: You need to adapt / remove the static functions (set_send_ui, set_amount_ui ...) to
 // match what you wish to display.
 
 // Set UI for the "Send" screen.
@@ -62,9 +62,8 @@ static int local_format_hex(const uint8_t *in, size_t in_len, char *out, size_t 
 
     return written + 1;
 }
-// Set UI for "Receive" screen.
-// EDIT THIS: Adapt / remove this function to your needs.
-static bool set_receive_ui(ethQueryContractUI_t *msg, const context_t *context) {
+
+static bool set_amount_ui(ethQueryContractUI_t *msg, const context_t *context) {
     strlcpy(msg->title, "Amount", msg->titleLength);
 
     uint8_t decimals = context->decimals;
@@ -164,20 +163,10 @@ static bool set_boolean_ui(ethQueryContractUI_t *msg, context_t *context) {
 }
 
 static bool set_public_key_ui(ethQueryContractUI_t *msg, context_t *context, bool first_chunk) {
-    switch (context->selectorIndex) {
-        case CANCEL_BOOST:
-        case QUEUE_BOOST:
-        case ACTIVATE_BOOST:
-        case DROP_BOOST:
-            if (first_chunk) {
-                strlcpy(msg->title, "Public Key Pt 1", msg->titleLength);
-            } else {
-                strlcpy(msg->title, "Public Key Pt 2", msg->titleLength);
-            }
-            break;
-        default:
-            PRINTF("Received an invalid selectorIndex\n");
-            break;
+    if (first_chunk) {
+        strlcpy(msg->title, "Public Key Pt 1", msg->titleLength);
+    } else {
+        strlcpy(msg->title, "Public Key Pt 2", msg->titleLength);
     }
 
     if (first_chunk) {
@@ -233,7 +222,7 @@ void handle_query_contract_ui(ethQueryContractUI_t *msg) {
                     ret = set_address_ui(msg, context);
                     break;
                 case 1:
-                    ret = set_receive_ui(msg, context);
+                    ret = set_amount_ui(msg, context);
                     break;
                 case 2:
                     ret = set_beneficiary_ui(msg, context);
@@ -248,6 +237,8 @@ void handle_query_contract_ui(ethQueryContractUI_t *msg) {
             break;
         case CANCEL_BOOST:
         case QUEUE_BOOST:
+        case CANCEL_DROP_BOOST:
+        case QUEUE_DROP_BOOST:
             switch (msg->screenIndex) {
                 case 0:
                     ret = set_public_key_ui(msg, context, true);
@@ -256,7 +247,7 @@ void handle_query_contract_ui(ethQueryContractUI_t *msg) {
                     ret = set_public_key_ui(msg, context, false);
                     break;
                 case 2:
-                    ret = set_receive_ui(msg, context);
+                    ret = set_amount_ui(msg, context);
                     break;
                 default:
                     PRINTF("Received an invalid screenIndex\n");
@@ -274,6 +265,13 @@ void handle_query_contract_ui(ethQueryContractUI_t *msg) {
                     break;
                 case 2:
                     ret = set_public_key_ui(msg, context, false);
+                    break;
+            }
+            break;
+        case STAKE:
+            switch (msg->screenIndex) {
+                case 0:
+                    ret = set_amount_ui(msg, context);
                     break;
             }
             break;
