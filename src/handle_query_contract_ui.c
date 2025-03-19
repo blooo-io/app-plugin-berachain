@@ -68,7 +68,7 @@ static bool set_receive_ui(ethQueryContractUI_t *msg, const context_t *context) 
     strlcpy(msg->title, "Amount", msg->titleLength);
 
     uint8_t decimals = context->decimals;
-    const char *ticker = context->ticker;
+    const char *ticker = (char *) context->ticker;
 
     // If the token look up failed, use the default network ticker along with the default decimals.
     if (!context->token_found) {
@@ -90,10 +90,13 @@ static bool set_beneficiary_ui(ethQueryContractUI_t *msg, context_t *context) {
         case CREATE_REWARD_VAULT:
             strlcpy(msg->title, "Address", msg->titleLength);
             break;
-        case DELEGATE:
         case MINT:
         case REDEEM:
             strlcpy(msg->title, "Beneficiary", msg->titleLength);
+            break;
+        case DELEGATE:
+        case DELEGATE_BY_SIG:
+            strlcpy(msg->title, "Delegatee", msg->titleLength);
             break;
         default:
             PRINTF("Received an invalid selectorIndex\n");
@@ -206,6 +209,71 @@ static bool set_public_key_ui(ethQueryContractUI_t *msg, context_t *context, boo
     return false;
 }
 
+static bool set_nonce_ui(ethQueryContractUI_t *msg, context_t *context) {
+    strlcpy(msg->title, "Nonce", msg->titleLength);
+    // format the nonce as a hex string from the amount_received variable
+    return amountToString(context->amount_received,
+                          sizeof(context->amount_received),
+                          0,
+                          "",
+                          msg->msg,
+                          msg->msgLength);
+}
+
+static bool set_expiry_ui(ethQueryContractUI_t *msg, context_t *context) {
+    strlcpy(msg->title, "Expiry", msg->titleLength);
+    // TODO: Convert the expiry to a human readable format
+    return local_format_hex(context->public_key, 32, msg->msg, msg->msgLength);
+}
+// TODO: FIX THIS
+static bool set_v_ui(ethQueryContractUI_t *msg, context_t *context) {
+    strlcpy(msg->title, "V", msg->titleLength);
+    uint8_t v = context->boolean;
+    // Convert the uint16 into a string
+    return amountToString(&v, sizeof(v), 0, "", msg->msg, msg->msgLength);
+}
+
+static bool set_r_ui(ethQueryContractUI_t *msg, context_t *context) {
+    strlcpy(msg->title, "R", msg->titleLength);
+    uint8_t r[32];
+    uint8_t offset = 0;
+    // copy the 20 bytes of the address variable to the r variable
+    memcpy(r, context->address, 20);
+    offset += 20;
+    // copy the first 12 bytes of the token_received variable to the r variable
+    memcpy(r + offset, context->token_received, 12);
+
+    msg->msg[0] = '0';
+    msg->msg[1] = 'x';
+    int ret = local_format_hex(r, sizeof(r), msg->msg + 2, msg->msgLength - 2);
+    return ret != -1;
+}
+
+static bool set_s_ui(ethQueryContractUI_t *msg, context_t *context) {
+    strlcpy(msg->title, "S", msg->titleLength);
+    uint8_t s[32];
+    uint8_t offset = 0;
+    // copy the 11 bytes of the rest variable to the s variable
+    memcpy(s, context->rest, 11);
+    offset += 11;
+    // copy the 11 bytes of the ticker variable to the s variable
+    memcpy(s + offset, context->ticker, 11);
+    offset += 11;
+    // copy the last 8 bytes of the token_received variable to the s variable
+    uint8_t token_received_offset = sizeof(context->token_received) - 8;
+    memcpy(s + offset, context->token_received + token_received_offset, 8);
+    offset += 8;
+    // copy the byte of the remaining_length variable to the s variable
+    s[offset++] = context->remaining_length;
+    // copy the  byte of the initial_length variable to the s variable
+    s[offset] = context->initial_length;
+
+    msg->msg[0] = '0';
+    msg->msg[1] = 'x';
+    int ret = local_format_hex(s, sizeof(s), msg->msg + 2, msg->msgLength - 2);
+    return ret != -1;
+}
+
 void handle_query_contract_ui(ethQueryContractUI_t *msg) {
     context_t *context = (context_t *) msg->pluginContext;
     bool ret = false;
@@ -278,6 +346,34 @@ void handle_query_contract_ui(ethQueryContractUI_t *msg) {
                     break;
                 case 2:
                     ret = set_public_key_ui(msg, context, false);
+                    break;
+                default:
+                    PRINTF("Received an invalid screenIndex\n");
+                    break;
+            }
+            break;
+        case DELEGATE_BY_SIG:
+            switch (msg->screenIndex) {
+                case 0:
+                    ret = set_beneficiary_ui(msg, context);
+                    break;
+                case 1:
+                    ret = set_nonce_ui(msg, context);
+                    break;
+                case 2:
+                    ret = set_expiry_ui(msg, context);
+                    break;
+                case 3:
+                    ret = set_v_ui(msg, context);
+                    break;
+                case 4:
+                    ret = set_r_ui(msg, context);
+                    break;
+                case 5:
+                    ret = set_s_ui(msg, context);
+                    break;
+                default:
+                    PRINTF("Received an invalid screenIndex\n");
                     break;
             }
             break;
