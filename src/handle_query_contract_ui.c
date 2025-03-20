@@ -215,29 +215,22 @@ static bool set_warning_ui(ethQueryContractUI_t *msg, context_t *context __attri
 
 static bool set_asset_received_ui(ethQueryContractUI_t *msg, context_t *context) {
     strlcpy(msg->title, "Asset to receive", msg->titleLength);
-    if (context->token_found) {
-        // display the ticker
-        memcpy(msg->msg, context->ticker, sizeof(context->ticker));
-        return true;
+    // display the address
 
-    } else {
-        // display the address
+    // Prefix the address with `0x`.
+    msg->msg[0] = '0';
+    msg->msg[1] = 'x';
 
-        // Prefix the address with `0x`.
-        msg->msg[0] = '0';
-        msg->msg[1] = 'x';
+    // We need a random chainID for legacy reasons with `getEthAddressStringFromBinary`.
+    // Setting it to `0` will make it work with every chainID :)
+    uint64_t chainid = 0;
 
-        // We need a random chainID for legacy reasons with `getEthAddressStringFromBinary`.
-        // Setting it to `0` will make it work with every chainID :)
-        uint64_t chainid = 0;
-
-        // Get the string representation of the address stored in `context->beneficiary`. Put it in
-        // `msg->msg`.
-        return getEthAddressStringFromBinary(
-            context->token_received,
-            msg->msg + 2,  // +2 here because we've already prefixed with '0x'.
-            chainid);
-    }
+    // Get the string representation of the address stored in `context->beneficiary`. Put it in
+    // `msg->msg`.
+    return getEthAddressStringFromBinary(
+        context->token_received,
+        msg->msg + 2,  // +2 here because we've already prefixed with '0x'.
+        chainid);
 }
 
 void handle_query_contract_ui(ethQueryContractUI_t *msg) {
@@ -289,6 +282,7 @@ void handle_query_contract_ui(ethQueryContractUI_t *msg) {
                     break;
                 case 3:
                     if (context->token_found) {
+                        ret = true;
                     } else {
                         ret = set_boolean_ui(msg, context);
                     }
