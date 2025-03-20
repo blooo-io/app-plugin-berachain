@@ -27,7 +27,6 @@ with open("%s/0xe2257f3c674a7cbbffcf7c01925d5bcb85ea0367.abi.json" % (ABIS_FOLDE
     )
 
 
-# EDIT THIS: build your own test
 def test_create_reward_vault(backend, firmware, navigator, test_name, wallet_addr):
     client = EthAppClient(backend)
 

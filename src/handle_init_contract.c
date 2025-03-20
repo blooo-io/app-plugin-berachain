@@ -48,13 +48,20 @@ void handle_init_contract(ethPluginInitContract_t *msg) {
             break;
         case MINT:
         case REDEEM:
+            context->next_param = ASSET_ADDRESS;
+            break;
         case ACTIVATE_BOOST:
         case DROP_BOOST:
             context->next_param = ADDRESS;
             break;
         case CANCEL_BOOST:
         case QUEUE_BOOST:
+        case CANCEL_DROP_BOOST:
+        case QUEUE_DROP_BOOST:
             context->next_param = OFFSET;
+            break;
+        case STAKE:
+            context->next_param = MIN_AMOUNT_RECEIVED;
             break;
         // Keep this
         default:

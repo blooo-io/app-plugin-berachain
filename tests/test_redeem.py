@@ -27,7 +27,6 @@ with open("%s/0xb05b8099d9de1e5cf07cd135d059d5a5ed484388.abi.json" % (ABIS_FOLDE
     )
 
 
-# EDIT THIS: build your own test
 def test_redeem(backend, firmware, navigator, test_name, wallet_addr):
     client = EthAppClient(backend)
 

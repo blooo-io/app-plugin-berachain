@@ -34,6 +34,9 @@
     X(QUEUE_BOOST, 0x489fa30a)         \
     X(ACTIVATE_BOOST, 0x9b05e781)      \
     X(DROP_BOOST, 0x814d2614)          \
+    X(CANCEL_DROP_BOOST, 0x9c8b0547)   \
+    X(QUEUE_DROP_BOOST, 0x2b153ce1)    \
+    X(STAKE, 0xa694fc3a)               \
     X(DELEGATE_BY_SIG, 0xc3cda520)
 // Xmacro helpers to define the enum and map
 // Do not modify !
@@ -57,6 +60,7 @@ typedef enum {
     MIN_AMOUNT_RECEIVED = 0,
     TOKEN_RECEIVED,
     BENEFICIARY,
+    ASSET_ADDRESS,
     ADDRESS,
     BOOLEAN,
     OFFSET,
