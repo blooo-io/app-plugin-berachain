@@ -56,6 +56,7 @@ typedef enum {
     MIN_AMOUNT_RECEIVED = 0,
     TOKEN_RECEIVED,
     BENEFICIARY,
+    ASSET_ADDRESS,
     ADDRESS,
     BOOLEAN,
     OFFSET,

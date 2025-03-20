@@ -17,8 +17,8 @@ static void handle_beneficiary(ethPluginProvideParameter_t *msg, context_t *cont
 
 static void handle_honey_functions(ethPluginProvideParameter_t *msg, context_t *context) {
     switch (context->next_param) {
-        case ADDRESS:
-            copy_address(context->address, msg->parameter, sizeof(context->address));
+        case ASSET_ADDRESS:
+            copy_address(context->token_received, msg->parameter, sizeof(context->token_received));
             context->next_param = MIN_AMOUNT_RECEIVED;
             break;
         case MIN_AMOUNT_RECEIVED:
