@@ -10,8 +10,6 @@ void handle_finalize(ethPluginFinalize_t *msg) {
         case DELEGATE:
             msg->numScreens = 1;
             break;
-        // Todo: implement mint
-        case MINT:
         case REDEEM:
             msg->numScreens = 4;
             break;
@@ -19,6 +17,7 @@ void handle_finalize(ethPluginFinalize_t *msg) {
         case QUEUE_BOOST:
         case ACTIVATE_BOOST:
         case DROP_BOOST:
+        case MINT:
             msg->numScreens = 3;
             break;
         default:

@@ -74,9 +74,8 @@ static bool set_receive_ui(ethQueryContractUI_t *msg, const context_t *context) 
     }
 
     switch (context->selectorIndex) {
-        // TODO: Add UI for mint
         case MINT:
-            strlcpy(msg->title, "Amount", msg->titleLength);
+            strlcpy(msg->title, "Amount to send", msg->titleLength);
             break;
         case REDEEM:
             strlcpy(msg->title, "Amount to send", msg->titleLength);
@@ -84,7 +83,7 @@ static bool set_receive_ui(ethQueryContractUI_t *msg, const context_t *context) 
             decimals = 18;
             break;
         default:
-            PRINTF("Received an invalid selectorIndex\n");
+            strlcpy(msg->title, "Amount", msg->titleLength);
             break;
     }
 
@@ -230,6 +229,8 @@ static bool set_asset_received_ui(ethQueryContractUI_t *msg, context_t *context)
     if (context->token_found) {
         // display the ticker
         memcpy(msg->msg, context->ticker, sizeof(context->ticker));
+        return true;
+
     } else {
         // display the address
 
@@ -248,7 +249,6 @@ static bool set_asset_received_ui(ethQueryContractUI_t *msg, context_t *context)
             msg->msg + 2,  // +2 here because we've already prefixed with '0x'.
             chainid);
     }
-    return true;
 }
 
 void handle_query_contract_ui(ethQueryContractUI_t *msg) {
