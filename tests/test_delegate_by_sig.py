@@ -39,7 +39,7 @@ def test_delegate_by_sig(backend, firmware, navigator, test_name, wallet_addr):
         "0x0be5debae3edfedd42f420247847d2a6f0fa598f"
     )  # Convertir en adresse checksum
     nonce = 25  # uint256
-    expiry = 123456890  # uint256
+    expiry = 1742461902  # uint256 #20 March 2025 09:11:42
     v = 44  # uint8
     r = bytes.fromhex(
         "7000000000000000000000000000000000000000000000000000000000000007"
