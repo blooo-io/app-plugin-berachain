@@ -220,11 +220,18 @@ static bool set_warning_ui(ethQueryContractUI_t *msg, context_t *context __attri
 static bool set_asset_received_ui(ethQueryContractUI_t *msg, context_t *context) {
     strlcpy(msg->title, "Asset to receive", msg->titleLength);
     // display the address
+    // display the address
 
     // Prefix the address with `0x`.
     msg->msg[0] = '0';
     msg->msg[1] = 'x';
+    // Prefix the address with `0x`.
+    msg->msg[0] = '0';
+    msg->msg[1] = 'x';
 
+    // We need a random chainID for legacy reasons with `getEthAddressStringFromBinary`.
+    // Setting it to `0` will make it work with every chainID :)
+    uint64_t chainid = 0;
     // We need a random chainID for legacy reasons with `getEthAddressStringFromBinary`.
     // Setting it to `0` will make it work with every chainID :)
     uint64_t chainid = 0;
