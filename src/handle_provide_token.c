@@ -22,7 +22,9 @@ void handle_provide_token(ethPluginProvideInfo_t *msg) {
         // If we wanted to add a screen, say a warning screen for example, we could instruct the
         // ethereum app to add an additional screen by setting `msg->additionalScreens` here, just
         // like so:
-        // msg->additionalScreens = 1;
+        if (context->selectorIndex == MINT) {
+            msg->additionalScreens = 1;
+        }
     }
     msg->result = ETH_PLUGIN_RESULT_OK;
 }

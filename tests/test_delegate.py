@@ -32,7 +32,6 @@ with open(
     )
 
 
-# EDIT THIS: build your own test
 def test_delegate(backend, firmware, navigator, test_name, wallet_addr):
     client = EthAppClient(backend)
 

@@ -29,6 +29,7 @@
     X(CREATE_REWARD_VAULT, 0x577ee5c7) \
     X(DELEGATE, 0x5c19a95c)            \
     X(MINT, 0x328ebaf7)                \
+    X(REDEEM, 0xed596315)              \
     X(CANCEL_BOOST, 0xf59f3cbf)        \
     X(QUEUE_BOOST, 0x489fa30a)         \
     X(ACTIVATE_BOOST, 0x9b05e781)      \
@@ -58,6 +59,7 @@ typedef enum {
     MIN_AMOUNT_RECEIVED = 0,
     TOKEN_RECEIVED,
     BENEFICIARY,
+    ASSET_ADDRESS,
     ADDRESS,
     BOOLEAN,
     OFFSET,

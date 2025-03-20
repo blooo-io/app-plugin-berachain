@@ -64,15 +64,26 @@ static int local_format_hex(const uint8_t *in, size_t in_len, char *out, size_t 
 }
 
 static bool set_amount_ui(ethQueryContractUI_t *msg, const context_t *context) {
-    strlcpy(msg->title, "Amount", msg->titleLength);
-
     uint8_t decimals = context->decimals;
     const char *ticker = context->ticker;
-
     // If the token look up failed, use the default network ticker along with the default decimals.
-    if (!context->token_found) {
+    if (!context->token_found && context->selectorIndex != REDEEM) {
         decimals = WEI_TO_ETHER;
         ticker = msg->network_ticker;
+    }
+
+    switch (context->selectorIndex) {
+        case MINT:
+            strlcpy(msg->title, "Amount to send", msg->titleLength);
+            break;
+        case REDEEM:
+            strlcpy(msg->title, "Amount to send", msg->titleLength);
+            ticker = "HONEY";
+            decimals = 18;
+            break;
+        default:
+            strlcpy(msg->title, "Amount", msg->titleLength);
+            break;
     }
 
     return amountToString(context->amount_received,
@@ -91,6 +102,7 @@ static bool set_beneficiary_ui(ethQueryContractUI_t *msg, context_t *context) {
             break;
         case DELEGATE:
         case MINT:
+        case REDEEM:
             strlcpy(msg->title, "Beneficiary", msg->titleLength);
             break;
         default:
@@ -117,6 +129,7 @@ static bool set_beneficiary_ui(ethQueryContractUI_t *msg, context_t *context) {
 static bool set_address_ui(ethQueryContractUI_t *msg, context_t *context) {
     switch (context->selectorIndex) {
         case MINT:
+        case REDEEM:
             strlcpy(msg->title, "Address", msg->titleLength);
             break;
         case ACTIVATE_BOOST:
@@ -145,6 +158,7 @@ static bool set_address_ui(ethQueryContractUI_t *msg, context_t *context) {
 static bool set_boolean_ui(ethQueryContractUI_t *msg, context_t *context) {
     switch (context->selectorIndex) {
         case MINT:
+        case REDEEM:
             strlcpy(msg->title, "Basket Mode", msg->titleLength);
             break;
         default:
@@ -192,6 +206,33 @@ static bool set_public_key_ui(ethQueryContractUI_t *msg, context_t *context, boo
     return false;
 }
 
+// Set UI for "Warning" screen.
+static bool set_warning_ui(ethQueryContractUI_t *msg, context_t *context __attribute__((unused))) {
+    strlcpy(msg->title, "WARNING", msg->titleLength);
+    strlcpy(msg->msg, "Unknown token", msg->msgLength);
+    return true;
+}
+
+static bool set_asset_received_ui(ethQueryContractUI_t *msg, context_t *context) {
+    strlcpy(msg->title, "Asset to receive", msg->titleLength);
+    // display the address
+
+    // Prefix the address with `0x`.
+    msg->msg[0] = '0';
+    msg->msg[1] = 'x';
+
+    // We need a random chainID for legacy reasons with `getEthAddressStringFromBinary`.
+    // Setting it to `0` will make it work with every chainID :)
+    uint64_t chainid = 0;
+
+    // Get the string representation of the address stored in `context->beneficiary`. Put it in
+    // `msg->msg`.
+    return getEthAddressStringFromBinary(
+        context->token_received,
+        msg->msg + 2,  // +2 here because we've already prefixed with '0x'.
+        chainid);
+}
+
 void handle_query_contract_ui(ethQueryContractUI_t *msg) {
     context_t *context = (context_t *) msg->pluginContext;
     bool ret = false;
@@ -219,7 +260,42 @@ void handle_query_contract_ui(ethQueryContractUI_t *msg) {
         case MINT:
             switch (msg->screenIndex) {
                 case 0:
-                    ret = set_address_ui(msg, context);
+                    if (context->token_found) {
+                        ret = set_amount_ui(msg, context);
+                    } else {
+                        ret = set_warning_ui(msg, context);
+                    }
+                    break;
+                case 1:
+                    if (context->token_found) {
+                        ret = set_beneficiary_ui(msg, context);
+                    } else {
+                        ret = set_amount_ui(msg, context);
+                    }
+                    break;
+                case 2:
+                    if (context->token_found) {
+                        ret = set_boolean_ui(msg, context);
+                    } else {
+                        ret = set_beneficiary_ui(msg, context);
+                    }
+                    break;
+                case 3:
+                    if (context->token_found) {
+                        ret = true;
+                    } else {
+                        ret = set_boolean_ui(msg, context);
+                    }
+                    break;
+                default:
+                    PRINTF("Received an invalid screenIndex\n");
+                    break;
+            }
+            break;
+        case REDEEM:
+            switch (msg->screenIndex) {
+                case 0:
+                    ret = set_asset_received_ui(msg, context);
                     break;
                 case 1:
                     ret = set_amount_ui(msg, context);
