@@ -141,7 +141,9 @@ static void handle_delegate_by_sig(ethPluginProvideParameter_t *msg, context_t *
             context->next_param = V;
             break;
         case V:
-            context->boolean = msg->parameter[msg->parameterOffset];
+            if (!U2BE_from_parameter(msg->parameter, &context->boolean)) {
+                msg->result = ETH_PLUGIN_RESULT_ERROR;
+            }
             context->next_param = R;
             break;
         case R:
