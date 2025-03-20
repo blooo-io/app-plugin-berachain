@@ -65,7 +65,7 @@ def test_delegate_by_sig(backend, firmware, navigator, test_name, wallet_addr):
         "gas": 173290,
         "to": contract.address,
         "value": 0,
-        "chainId": ChainId.ETH,
+        "chainId": 80094,
         "data": data,
     }
     # send the transaction
