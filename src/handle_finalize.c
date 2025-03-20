@@ -8,6 +8,7 @@ void handle_finalize(ethPluginFinalize_t *msg) {
     switch (context->selectorIndex) {
         case CREATE_REWARD_VAULT:
         case DELEGATE:
+        case STAKE:
             msg->numScreens = 1;
             break;
         case REDEEM:
@@ -18,6 +19,8 @@ void handle_finalize(ethPluginFinalize_t *msg) {
         case ACTIVATE_BOOST:
         case DROP_BOOST:
         case MINT:
+        case CANCEL_DROP_BOOST:
+        case QUEUE_DROP_BOOST:
             msg->numScreens = 3;
             break;
         default:
