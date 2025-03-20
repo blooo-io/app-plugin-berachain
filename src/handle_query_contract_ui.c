@@ -223,9 +223,14 @@ static bool set_nonce_ui(ethQueryContractUI_t *msg, context_t *context) {
 static bool set_expiry_ui(ethQueryContractUI_t *msg, context_t *context) {
     strlcpy(msg->title, "Expiry", msg->titleLength);
     // TODO: Convert the expiry to a human readable format
-    return local_format_hex(context->public_key, 32, msg->msg, msg->msgLength);
+    return amountToString(context->public_key,
+                          sizeof(context->public_key),
+                          0,
+                          "",
+                          msg->msg,
+                          msg->msgLength);
 }
-// TODO: FIX THIS
+
 static bool set_v_ui(ethQueryContractUI_t *msg, context_t *context) {
     strlcpy(msg->title, "V", msg->titleLength);
     uint8_t v = context->boolean;
