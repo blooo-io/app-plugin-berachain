@@ -79,26 +79,25 @@ typedef enum {
 // will need to adapt this struct to your plugin.
 typedef struct context_s {
     // For display.
-    uint8_t amount_received[INT256_LENGTH];
-    uint8_t beneficiary[ADDRESS_LENGTH];
-    uint8_t address[ADDRESS_LENGTH];
-    uint8_t token_received[ADDRESS_LENGTH];
-    uint8_t public_key[32];
-    uint8_t ticker[MAX_TICKER_LEN];
-    uint8_t decimals;
-    uint8_t token_found;
-    uint16_t boolean;
-    uint8_t rest[11];
+    uint8_t amount_received[INT256_LENGTH];  // 32 bytes
+    uint8_t beneficiary[ADDRESS_LENGTH];     // 20 bytes
+    uint8_t address[ADDRESS_LENGTH];         // 20 bytes
+    uint8_t token_received[ADDRESS_LENGTH];  // 20 bytes
+    uint8_t public_key[32];                  // 32 bytes
+    uint8_t ticker[MAX_TICKER_LEN];          // 11 bytes (assuming MAX_TICKER_LEN is 11)
+    uint8_t decimals;                        // 1 byte
+    uint8_t token_found;                     // 1 byte
+    uint8_t boolean;                         // 1 byte
+    uint8_t rest[11];                        // 11 bytes
     // For parsing data.
-    uint8_t next_param;  // Set to be the next param we expect to parse.
-    uint16_t offset;     // Offset at which the array or struct starts.
-    bool go_to_offset;   // If set, will force the parsing to iterate through parameters until
-                         // `offset` is reached.
-    uint8_t remaining_length;
-    uint8_t initial_length;
+    uint8_t next_param;                      // 1 byte
+    
+    uint8_t remaining_length;                // 1 byte
+    uint8_t initial_length;                  // 1 byte
     // For both parsing and display.
-    selector_t selectorIndex;
-    // 32 + 20 + 20 + 20 + 32 + 11 + 1 + 1 + 2 + 11 + 1 + 2 + 1 + 1 + 1 + 4 = 160 bytes
+    selector_t selectorIndex;                // 4 bytes (assuming enum size)
+    
+    // Total: 32 + 20 + 20 + 20 + 32 + 11 + 1 + 1 + 1 + 11 + 1 + 1 + 1 + 4 = 156 bytes
 } context_t;
 
 // Check if the context structure will fit in the RAM section ETH will prepare for us

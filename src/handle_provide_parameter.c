@@ -32,9 +32,7 @@ static void handle_honey_functions(ethPluginProvideParameter_t *msg, context_t *
             context->next_param = BOOLEAN;
             break;
         case BOOLEAN:
-            if (!U2BE_from_parameter(msg->parameter, &context->boolean)) {
-                msg->result = ETH_PLUGIN_RESULT_ERROR;
-            }
+            context->boolean = msg->parameter[31]; // Get the last of 32 bytes
             context->next_param = NONE;
             break;
         case NONE:
@@ -49,7 +47,8 @@ static void handle_honey_functions(ethPluginProvideParameter_t *msg, context_t *
 static void handle_public_key_and_amount(ethPluginProvideParameter_t *msg, context_t *context) {
     switch (context->next_param) {
         case OFFSET:
-            context->offset = msg->parameter[0];
+            // Store offset in the boolean variable
+            context->boolean = msg->parameter[0];
             context->next_param = MIN_AMOUNT_RECEIVED;
             break;
         case MIN_AMOUNT_RECEIVED:
@@ -93,7 +92,8 @@ static void handle_address_and_public_key(ethPluginProvideParameter_t *msg, cont
             context->next_param = OFFSET;
             break;
         case OFFSET:
-            context->offset = msg->parameter[0];
+            // Store offset in the boolean variable
+            context->boolean = msg->parameter[0];
             context->next_param = LENGTH;
             break;
         case LENGTH:
@@ -158,9 +158,8 @@ static void handle_delegate_by_sig(ethPluginProvideParameter_t *msg, context_t *
             context->next_param = V;
             break;
         case V:
-            if (!U2BE_from_parameter(msg->parameter, &context->boolean)) {
-                msg->result = ETH_PLUGIN_RESULT_ERROR;
-            }
+            // Store the byte of V in the boolean variable
+            context->boolean = msg->parameter[31]; // Get the last of the 32 bytes
             context->next_param = R;
             break;
         case R:
