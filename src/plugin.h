@@ -90,13 +90,13 @@ typedef struct context_s {
     uint8_t boolean;                         // 1 byte
     uint8_t rest[11];                        // 11 bytes
     // For parsing data.
-    uint8_t next_param;                      // 1 byte
-    
-    uint8_t remaining_length;                // 1 byte
-    uint8_t initial_length;                  // 1 byte
+    uint8_t next_param;  // 1 byte
+
+    uint8_t remaining_length;  // 1 byte
+    uint8_t initial_length;    // 1 byte
     // For both parsing and display.
-    selector_t selectorIndex;                // 4 bytes (assuming enum size)
-    
+    selector_t selectorIndex;  // 4 bytes (assuming enum size)
+
     // Total: 32 + 20 + 20 + 20 + 32 + 11 + 1 + 1 + 1 + 11 + 1 + 1 + 1 + 4 = 156 bytes
 } context_t;
 

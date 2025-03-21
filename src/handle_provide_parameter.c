@@ -32,7 +32,7 @@ static void handle_honey_functions(ethPluginProvideParameter_t *msg, context_t *
             context->next_param = BOOLEAN;
             break;
         case BOOLEAN:
-            context->boolean = msg->parameter[31]; // Get the last of 32 bytes
+            context->boolean = msg->parameter[31];  // Get the last of 32 bytes
             context->next_param = NONE;
             break;
         case NONE:
@@ -159,7 +159,7 @@ static void handle_delegate_by_sig(ethPluginProvideParameter_t *msg, context_t *
             break;
         case V:
             // Store the byte of V in the boolean variable
-            context->boolean = msg->parameter[31]; // Get the last of the 32 bytes
+            context->boolean = msg->parameter[31];  // Get the last of the 32 bytes
             context->next_param = R;
             break;
         case R:

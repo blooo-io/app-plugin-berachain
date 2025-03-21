@@ -266,7 +266,12 @@ static bool set_expiry_ui(ethQueryContractUI_t *msg, context_t *context) {
 static bool set_v_ui(ethQueryContractUI_t *msg, context_t *context) {
     strlcpy(msg->title, "V", msg->titleLength);
     // Convert the uint8 into a string
-    return amountToString(&context->boolean, sizeof(context->boolean), 0, "", msg->msg, msg->msgLength);
+    return amountToString(&context->boolean,
+                          sizeof(context->boolean),
+                          0,
+                          "",
+                          msg->msg,
+                          msg->msgLength);
 }
 
 static bool set_r_ui(ethQueryContractUI_t *msg, context_t *context) {
