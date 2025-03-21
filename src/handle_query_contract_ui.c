@@ -232,9 +232,6 @@ static bool set_asset_received_ui(ethQueryContractUI_t *msg, context_t *context)
     // We need a random chainID for legacy reasons with `getEthAddressStringFromBinary`.
     // Setting it to `0` will make it work with every chainID :)
     uint64_t chainid = 0;
-    // We need a random chainID for legacy reasons with `getEthAddressStringFromBinary`.
-    // Setting it to `0` will make it work with every chainID :)
-    uint64_t chainid = 0;
 
     // Get the string representation of the address stored in `context->beneficiary`. Put it in
     // `msg->msg`.
