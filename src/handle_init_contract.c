@@ -43,6 +43,7 @@ void handle_init_contract(ethPluginInitContract_t *msg) {
     switch (context->selectorIndex) {
         case CREATE_REWARD_VAULT:
         case DELEGATE:
+        case DELEGATE_BY_SIG:
             context->next_param = BENEFICIARY;
             break;
         case MINT:

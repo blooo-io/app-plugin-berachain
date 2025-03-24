@@ -11,7 +11,8 @@ void handle_provide_token(ethPluginProvideInfo_t *msg) {
         // Store its decimals.
         context->decimals = msg->item1->token.decimals;
         // Store its ticker.
-        strlcpy(context->ticker, (char *) msg->item1->token.ticker, sizeof(context->ticker));
+        memcpy(context->ticker, msg->item1->token.ticker, sizeof(context->ticker));
+        // strlcpy(context->ticker, (char *) msg->item1->token.ticker, sizeof(context->ticker));
 
         // Keep track that we found the token.
         context->token_found = true;

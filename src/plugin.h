@@ -37,6 +37,7 @@
     X(CANCEL_DROP_BOOST, 0x9c8b0547)   \
     X(QUEUE_DROP_BOOST, 0x2b153ce1)    \
     X(STAKE, 0xa694fc3a)               \
+    X(DELEGATE_BY_SIG, 0xc3cda520)
 // Xmacro helpers to define the enum and map
 // Do not modify !
 #define TO_ENUM(selector_name, selector_id)  selector_name,
@@ -65,7 +66,12 @@ typedef enum {
     OFFSET,
     LENGTH,
     NONE,
-    PUBLIC_KEY
+    PUBLIC_KEY,
+    NONCE,
+    EXPIRY,
+    V,
+    R,
+    S
 } parameter;
 
 // Shared global memory with Ethereum app. Must be at most 5 * 32 bytes.
@@ -73,27 +79,26 @@ typedef enum {
 // will need to adapt this struct to your plugin.
 typedef struct context_s {
     // For display.
-    uint8_t amount_received[INT256_LENGTH];
-    uint8_t beneficiary[ADDRESS_LENGTH];
-    uint8_t address[ADDRESS_LENGTH];
-    uint8_t token_received[ADDRESS_LENGTH];
-    uint8_t public_key[32];
-    char ticker[MAX_TICKER_LEN];
-    uint8_t decimals;
-    uint8_t token_found;
-    uint16_t boolean;
+    uint8_t amount_received[INT256_LENGTH];  // 32 bytes
+    uint8_t beneficiary[ADDRESS_LENGTH];     // 20 bytes
+    uint8_t address[ADDRESS_LENGTH];         // 20 bytes
+    uint8_t token_received[ADDRESS_LENGTH];  // 20 bytes
+    uint8_t public_key[32];                  // 32 bytes
+    uint8_t ticker[MAX_TICKER_LEN];          // 11 bytes (assuming MAX_TICKER_LEN is 11)
+    uint8_t decimals;                        // 1 byte
+    uint8_t token_found;                     // 1 byte
+    uint8_t boolean;                         // 1 byte
+    uint8_t rest[11];                        // 11 bytes
     // For parsing data.
-    uint8_t next_param;  // Set to be the next param we expect to parse.
-    uint16_t offset;     // Offset at which the array or struct starts.
-    bool go_to_offset;   // If set, will force the parsing to iterate through parameters until
-                         // `offset` is reached.
-    uint8_t remainingLength;
-    uint8_t initialLength;
-    // For both parsing and display.
-    selector_t selectorIndex;
-} context_t;
+    uint8_t next_param;  // 1 byte
 
-// 32 + 20 + 20 + 20 + 32 + 11 + 1 + 1 + 2 + 1 + 2 + 1 + 1 + 1= 146
+    uint8_t remaining_length;  // 1 byte
+    uint8_t initial_length;    // 1 byte
+    // For both parsing and display.
+    selector_t selectorIndex;  // 4 bytes (assuming enum size)
+
+    // Total: 32 + 20 + 20 + 20 + 32 + 11 + 1 + 1 + 1 + 11 + 1 + 1 + 1 + 4 = 156 bytes
+} context_t;
 
 // Check if the context structure will fit in the RAM section ETH will prepare for us
 // Do not remove!
