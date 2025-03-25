@@ -82,6 +82,14 @@ static bool set_amount_ui(ethQueryContractUI_t *msg, const context_t *context) {
             ticker = "HONEY";
             decimals = 18;
             break;
+        case QUEUE_BOOST:
+        case CANCEL_BOOST:
+        case QUEUE_DROP_BOOST:
+        case CANCEL_DROP_BOOST:
+            strlcpy(msg->title, "Amount", msg->titleLength);
+            ticker = "BGT";
+            decimals = 18;
+            break;
         default:
             strlcpy(msg->title, "Amount", msg->titleLength);
             break;
