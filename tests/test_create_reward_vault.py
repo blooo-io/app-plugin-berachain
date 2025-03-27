@@ -23,7 +23,7 @@ PLUGIN_NAME = get_appname_from_makefile()
 
 
 with open(
-    "%s/0xe2257f3c674a7cbbffcf7c01925d5bcb85ea0367.abi.json" % (ABIS_FOLDER)
+    "%s/0x94ad6ac84f6c6fba8b8ccbd71d9f4f101def52a8.abi.json" % (ABIS_FOLDER)
 ) as file:
     contract = Web3().eth.contract(
         abi=json.load(file),

@@ -4,6 +4,14 @@
   { "inputs": [], "name": "CannotRecoverIncentiveToken", "type": "error" },
   { "inputs": [], "name": "CannotRecoverRewardToken", "type": "error" },
   { "inputs": [], "name": "CannotRecoverStakingToken", "type": "error" },
+  { "inputs": [], "name": "ChangePayoutTokenNotAllowed", "type": "error" },
+  { "inputs": [], "name": "ChangeRewardTokenNotAllowed", "type": "error" },
+  { "inputs": [], "name": "CommissionChangeAlreadyQueued", "type": "error" },
+  {
+    "inputs": [],
+    "name": "CommissionNotQueuedOrDelayNotPassed",
+    "type": "error"
+  },
   { "inputs": [], "name": "DepositNotMultipleOfGwei", "type": "error" },
   { "inputs": [], "name": "DepositValueTooHigh", "type": "error" },
   { "inputs": [], "name": "DonateAmountLessThanPayoutAmount", "type": "error" },
@@ -14,23 +22,31 @@
   { "inputs": [], "name": "InsolventReward", "type": "error" },
   { "inputs": [], "name": "InsufficientDelegateStake", "type": "error" },
   { "inputs": [], "name": "InsufficientDeposit", "type": "error" },
+  { "inputs": [], "name": "InsufficientIncentiveTokens", "type": "error" },
   { "inputs": [], "name": "InsufficientSelfStake", "type": "error" },
   { "inputs": [], "name": "InsufficientStake", "type": "error" },
   { "inputs": [], "name": "InvalidActivateBoostDelay", "type": "error" },
+  { "inputs": [], "name": "InvalidArray", "type": "error" },
   { "inputs": [], "name": "InvalidBaseRate", "type": "error" },
   { "inputs": [], "name": "InvalidBoostMultiplier", "type": "error" },
+  { "inputs": [], "name": "InvalidCommissionChangeDelay", "type": "error" },
+  { "inputs": [], "name": "InvalidCommissionValue", "type": "error" },
   { "inputs": [], "name": "InvalidCredentialsLength", "type": "error" },
+  { "inputs": [], "name": "InvalidDistribution", "type": "error" },
   { "inputs": [], "name": "InvalidDropBoostDelay", "type": "error" },
   { "inputs": [], "name": "InvalidInitialization", "type": "error" },
   { "inputs": [], "name": "InvalidMaxIncentiveTokensCount", "type": "error" },
+  { "inputs": [], "name": "InvalidMerkleRoot", "type": "error" },
   { "inputs": [], "name": "InvalidMinBoostedRewardRate", "type": "error" },
   { "inputs": [], "name": "InvalidProof", "type": "error" },
   { "inputs": [], "name": "InvalidPubKeyLength", "type": "error" },
   { "inputs": [], "name": "InvalidRewardAllocationWeights", "type": "error" },
+  { "inputs": [], "name": "InvalidRewardClaimDelay", "type": "error" },
   { "inputs": [], "name": "InvalidRewardConvexity", "type": "error" },
   { "inputs": [], "name": "InvalidRewardRate", "type": "error" },
   { "inputs": [], "name": "InvalidSignatureLength", "type": "error" },
   { "inputs": [], "name": "InvalidStartBlock", "type": "error" },
+  { "inputs": [], "name": "InvalidToken", "type": "error" },
   {
     "inputs": [],
     "name": "InvalidateDefaultRewardAllocation",
@@ -76,6 +92,7 @@
     "type": "error"
   },
   { "inputs": [], "name": "RewardCycleNotEnded", "type": "error" },
+  { "inputs": [], "name": "RewardInactive", "type": "error" },
   { "inputs": [], "name": "RewardsDurationIsZero", "type": "error" },
   {
     "inputs": [
@@ -98,6 +115,68 @@
   { "inputs": [], "name": "ZeroAddress", "type": "error" },
   { "inputs": [], "name": "ZeroOperatorOnFirstDeposit", "type": "error" },
   { "inputs": [], "name": "ZeroPercentageWeight", "type": "error" },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "bytes",
+        "name": "pubkey",
+        "type": "bytes"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "token",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "bgtEmitted",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "BGTBoosterIncentivesProcessFailed",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "bytes",
+        "name": "pubkey",
+        "type": "bytes"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "token",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "bgtEmitted",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "BGTBoosterIncentivesProcessed",
+    "type": "event"
+  },
   {
     "anonymous": false,
     "inputs": [
