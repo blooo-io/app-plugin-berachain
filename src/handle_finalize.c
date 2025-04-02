@@ -1,7 +1,7 @@
 #include "plugin.h"
 
 void handle_finalize(ethPluginFinalize_t *msg) {
-    context_t *context = (context_t *) msg->pluginContext;
+    context_t *context = (context_t *) msg->pluginContext;   
 
     msg->uiType = ETH_UI_TYPE_GENERIC;
 
