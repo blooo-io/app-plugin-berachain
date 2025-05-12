@@ -256,7 +256,6 @@ static bool set_nonce_ui(ethQueryContractUI_t *msg, context_t *context) {
 
 static bool set_expiry_ui(ethQueryContractUI_t *msg, context_t *context) {
     strlcpy(msg->title, "Expiry", msg->titleLength);
-    // TODO: Convert the expiry to a human readable format
     return amountToString(context->public_key,
                           sizeof(context->public_key),
                           0,
