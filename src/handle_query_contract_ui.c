@@ -228,11 +228,7 @@ static bool set_warning_ui(ethQueryContractUI_t *msg, context_t *context __attri
 static bool set_asset_received_ui(ethQueryContractUI_t *msg, context_t *context) {
     strlcpy(msg->title, "Asset to receive", msg->titleLength);
     // display the address
-    // display the address
 
-    // Prefix the address with `0x`.
-    msg->msg[0] = '0';
-    msg->msg[1] = 'x';
     // Prefix the address with `0x`.
     msg->msg[0] = '0';
     msg->msg[1] = 'x';
