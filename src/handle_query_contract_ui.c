@@ -177,15 +177,13 @@ static bool set_boolean_ui(ethQueryContractUI_t *msg, context_t *context) {
             PRINTF("Received an invalid selectorIndex\n");
             break;
     }
-
+    int result = -1;
     if (context->boolean == 0) {
-        snprintf(msg->msg, msg->msgLength, "%s", "False");
-        return true;
+        result = snprintf(msg->msg, msg->msgLength, "%s", "False");
     } else {
-        snprintf(msg->msg, msg->msgLength, "%s", "True");
-        return true;
+        result = snprintf(msg->msg, msg->msgLength, "%s", "True");
     }
-    return false;
+    return result >= 0;
 }
 
 static bool set_public_key_ui(ethQueryContractUI_t *msg, context_t *context, bool first_chunk) {
