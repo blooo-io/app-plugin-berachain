@@ -67,7 +67,7 @@ def test_stake(backend, firmware, navigator, test_name, wallet_addr):
             navigator.navigate_until_text_and_compare(
                 NavInsID.RIGHT_CLICK,
                 [NavInsID.BOTH_CLICK],
-                "Accept",
+                "Sign transaction",
                 ROOT_SCREENSHOT_PATH,
                 test_name,
             )
