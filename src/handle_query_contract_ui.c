@@ -177,15 +177,13 @@ static bool set_boolean_ui(ethQueryContractUI_t *msg, context_t *context) {
             PRINTF("Received an invalid selectorIndex\n");
             break;
     }
-
+    int result = -1;
     if (context->boolean == 0) {
-        snprintf(msg->msg, msg->msgLength, "%s", "False");
-        return true;
+        result = snprintf(msg->msg, msg->msgLength, "%s", "False");
     } else {
-        snprintf(msg->msg, msg->msgLength, "%s", "True");
-        return true;
+        result = snprintf(msg->msg, msg->msgLength, "%s", "True");
     }
-    return false;
+    return result >= 0;
 }
 
 static bool set_public_key_ui(ethQueryContractUI_t *msg, context_t *context, bool first_chunk) {
@@ -228,11 +226,7 @@ static bool set_warning_ui(ethQueryContractUI_t *msg, context_t *context __attri
 static bool set_asset_received_ui(ethQueryContractUI_t *msg, context_t *context) {
     strlcpy(msg->title, "Asset to receive", msg->titleLength);
     // display the address
-    // display the address
 
-    // Prefix the address with `0x`.
-    msg->msg[0] = '0';
-    msg->msg[1] = 'x';
     // Prefix the address with `0x`.
     msg->msg[0] = '0';
     msg->msg[1] = 'x';
@@ -262,7 +256,6 @@ static bool set_nonce_ui(ethQueryContractUI_t *msg, context_t *context) {
 
 static bool set_expiry_ui(ethQueryContractUI_t *msg, context_t *context) {
     strlcpy(msg->title, "Expiry", msg->titleLength);
-    // TODO: Convert the expiry to a human readable format
     return amountToString(context->public_key,
                           sizeof(context->public_key),
                           0,
