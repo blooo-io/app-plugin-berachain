@@ -21,6 +21,6 @@ APPNAME = "Berachain"
 # Application version
 APPVERSION_M = 1
 APPVERSION_N = 1
-APPVERSION_P = 1
+APPVERSION_P = 3
 
 include ethereum-plugin-sdk/standard_plugin.mk
