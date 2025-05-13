@@ -64,7 +64,7 @@ def test_create_reward_vault(backend, firmware, navigator, test_name, wallet_add
             navigator.navigate_until_text_and_compare(
                 NavInsID.RIGHT_CLICK,
                 [NavInsID.BOTH_CLICK],
-                "Accept",
+                "Sign transaction",
                 ROOT_SCREENSHOT_PATH,
                 test_name,
             )
